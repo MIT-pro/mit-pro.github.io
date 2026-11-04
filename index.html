@@ -29,7 +29,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 .top{display:flex;gap:8px;align-items:flex-start}.col{display:flex;flex-direction:column;gap:2px}
 #mcw .sl{border:2px solid;border-color:#373737 #fff #fff #373737;background:#8b8b8b;border-radius:0}#mcw .col>.sl{width:44px}
 #pmc{width:96px;height:130px;background:#1b1b1b;border:2px solid;border-color:#373737 #fff #fff #373737;image-rendering:pixelated}
-#mcw .mrow button{border-radius:0;border:2px solid;border-color:#fff #555 #555 #fff;background:#c6c6c6;color:#222}#set p{margin:8px 0;color:var(--mut)}.cn{position:absolute;right:3px;bottom:1px;font-size:13px;color:#fff;text-shadow:1px 1px #000;text-decoration:none}#mcw .sl:hover{background:#b0b0b0}#pf{position:fixed;right:8px;bottom:8px;z-index:20;font:12px Menlo,Consolas,monospace;color:#fff;background:rgba(0,0,0,.6);padding:3px 6px;pointer-events:none;display:none}
+#mcw .mrow button{border-radius:0;border:2px solid;border-color:#fff #555 #555 #fff;background:#c6c6c6;color:#222}#set p{margin:8px 0;color:var(--mut)}.cn{position:absolute;right:3px;bottom:1px;font-size:13px;color:#fff;text-shadow:1px 1px #000;text-decoration:none}#mcw .sl:hover{background:#b0b0b0}#cur{position:fixed;z-index:30;width:44px;height:44px;image-rendering:pixelated;pointer-events:none;display:none;transform:translate(-50%,-50%)}#pf{position:fixed;right:8px;bottom:8px;z-index:20;font:12px Menlo,Consolas,monospace;color:#fff;background:rgba(0,0,0,.6);padding:3px 6px;pointer-events:none;display:none}
 #inv h1{margin:0 0 6px;font-size:22px}#inv p{color:var(--mut);margin:5px 0}
 .hbx{display:grid;grid-template-columns:repeat(9,1fr);gap:4px;margin:8px 0}
 .sl{aspect-ratio:1;border:2px solid #373737;background:#8b8b8b;display:flex;align-items:center;justify-content:center;position:relative;cursor:grab;min-width:0}
@@ -55,7 +55,7 @@ details{margin:8px 0;color:var(--mut)}summary{cursor:pointer;color:var(--fg)}
 .cbr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0;color:var(--mut);font-size:13px}.cbr select{font:inherit;background:#10151c;color:var(--fg);border:1px solid #3b4654;border-radius:5px;padding:3px}.cbr .kb{width:auto;padding:3px 10px;margin:0}
 </style></head><body>
 <canvas id="c"></canvas><div id="hand"><div id="rise"><div id="hold"></div></div></div><div id="hand2"><div id="rise2"><div id="hold2"></div></div></div><canvas id="ui"></canvas><div id="pf"></div>
-<div id="inv"><div><div id="fxc"><div id="fxl"></div></div><div id="mcw">
+<div id="inv"><img id="cur" alt=""><div><div id="fxc"><div id="fxl"></div></div><div id="mcw">
 <div class="top"><div class="col" id="arm"></div><canvas id="pmc" width="48" height="65"></canvas><div class="col" style="margin-left:auto;align-items:center"><h3>Crafting</h3><div style="display:flex;gap:6px;align-items:center"><div style="display:grid;grid-template-columns:repeat(2,38px)"><div class="sl"></div><div class="sl"></div><div class="sl"></div><div class="sl"></div></div><span>&rarr;</span><div class="sl" style="width:38px"></div></div><h3>Offhand</h3><span class="sl" id="ohslot" draggable="true" data-o="1" style="width:44px"></span></div></div>
 <h3 style="margin-top:8px">Inventory</h3><div class="hbx" id="mhb" style="gap:0"></div>
 <div class="hbx" id="hbx" style="gap:0;margin-top:6px"></div>
@@ -78,7 +78,7 @@ details{margin:8px 0;color:var(--mut)}summary{cursor:pointer;color:var(--fg)}
 <div id="ob" style="display:none"><p id="ot"></p><textarea id="oa" rows="3" style="font:12px Menlo,Consolas,monospace;width:100%;box-sizing:border-box;background:#10151c;color:#eef2f6;border:1px solid #3b4654;border-radius:6px;padding:6px"></textarea><div class="mrow"><button id="ocp">Copy my code</button></div><p id="ot2"></p><textarea id="ob2" rows="3" style="font:12px Menlo,Consolas,monospace;width:100%;box-sizing:border-box;background:#10151c;color:#eef2f6;border:1px solid #3b4654;border-radius:6px;padding:6px"></textarea><div class="mrow"><button id="ogo">Connect</button></div></div>
 <p><b>LAN server</b> (works without internet): run <code>server.js</code> from the zip on one PC, everyone opens <code>http://THAT-PC-IP:8080</code>, picks the same ruleset, types the same room code and presses Join LAN room.</p><div class="mrow"><input id="lc" placeholder="room code" maxlength="12" style="font:inherit;padding:6px 8px;border-radius:6px;border:1px solid #3b4654;background:#10151c;color:#eef2f6;width:120px"><button id="lj">Join LAN room</button></div></details></details></div>
 <div class="mrow" id="mx"><button id="ctlb">Instructions &amp; key binds</button><button id="invb">Inventory</button><button id="setb">Settings</button></div>
-<details id="txd"><summary>Textures</summary><p>I don’t have Mojang’s texture files, but your copy of the game does. Pick the PNGs once and the page remembers them: grass_block_top, grass_block_side, grass_block_side_overlay, dirt, cobblestone, and the item icons (netherite_spear, mace, wind_charge, firework_rocket, elytra, netherite_chestplate, netherite_sword, netherite_axe, ender_pearl, totem_of_undying, golden_carrot). <input id="tp" type="file" accept="image/png,.html" multiple> <button id="tpx">Forget saved textures</button><br><b>Easiest:</b> pick your game file once, <b>.minecraft/versions/&lt;version&gt;/&lt;version&gt;.jar</b> (or a resource pack .zip): <input id="tpj" type="file" accept=".jar,.zip"> <span id="tpm"></span><br>Or pick the whole item folder once (<b>assets/minecraft/textures/item</b> from your game jar): <input id="tpd" type="file" webkitdirectory multiple> The page keeps only the PNGs it uses. New items: <b>splash_potion</b> and <b>potion_overlay</b> (tinted automatically for Speed, Strength and Instant Health), <b>cooked_beef</b> (steak), <b>netherite_helmet</b>, <b>netherite_leggings</b>, <b>netherite_boots</b>.</p></details>
+<details id="txd"><summary>Textures</summary><p>I don’t have Mojang’s texture files, but your copy of the game does. Pick the PNGs once and the page remembers them: grass_block_top, grass_block_side, grass_block_side_overlay, dirt, cobblestone, and the item icons (netherite_spear, mace, wind_charge, firework_rocket, elytra, netherite_chestplate, netherite_sword, netherite_axe, ender_pearl, totem_of_undying, golden_carrot). <input id="tp" type="file" accept="image/png,.html" multiple> <button id="tpx">Forget saved textures</button><br><b>Easiest:</b> pick your game file once, <b>.minecraft/versions/&lt;version&gt;/&lt;version&gt;.jar</b> (or a resource pack .zip): <input id="tpj" type="file" accept=".jar,.zip"> <span id="tpm"></span><br>Netherite armour: layer 1 (helmet, chestplate, boots) <input id="al1" type="file" accept="image/png"> layer 2 (leggings) <input id="al2" type="file" accept="image/png"><br><span id="tpf"></span><br>Or pick the whole item folder once (<b>assets/minecraft/textures/item</b> from your game jar): <input id="tpd" type="file" webkitdirectory multiple> The page keeps only the PNGs it uses. New items: <b>splash_potion</b> and <b>potion_overlay</b> (tinted automatically for Speed, Strength and Instant Health), <b>cooked_beef</b> (steak), <b>netherite_helmet</b>, <b>netherite_leggings</b>, <b>netherite_boots</b>.</p></details>
 <details id="sxd"><summary>Sounds</summary><p>The game makes its own original sound effects. To use the real game sounds instead, download them from the Minecraft Wiki (or take them from your own copy of the game) and pick the files here. They are matched by file name, for example Mace_smash_air1, Mace_smash_ground_heavy1, Wind_Charge_burst1, Wind_Charge_throw1, Ender_Pearl_throw1, Totem_of_Undying_use, Small_fall1, Big_fall1, Player_hurt1, Shield_block1, Elytra_equip, Firework_rocket_launch1. They are remembered on this device. <input id="sp" type="file" accept="audio/*" multiple> <button id="spx">Forget custom sounds</button></p><p id="sps"></p></details>
 </div></div>
 <div id="ctl"><div>
@@ -150,14 +150,29 @@ const M=c=>new T.MeshLambertMaterial({color:c}),bx=(w,h,d,c,x=0,y=0,z=0)=>{const
 const NM=[],nm=c=>{const m=M(c);NM.push(m);return m},NG=new T.Group();
 const part=(w,h,d,c,x,y)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,d),nm(c));m.position.set(x,y,0);NG.add(m)};
 part(.5,.5,.5,0xc68b64,0,1.55);part(.5,.7,.25,0x3aa3a3,0,1.0);part(.22,.7,.22,0xc68b64,-.36,1.0);part(.22,.7,.22,0xc68b64,.36,1.0);part(.24,.7,.24,0x3b4aa0,-.13,.35);part(.24,.7,.24,0x3b4aa0,.13,.35);const SH=new T.Group();SH.add(bx(.56,.86,.06,0x9a9a9a),bx(.44,.74,.09,0x7a4a2b));SH.position.set(-.1,1.0,.34);NG.add(SH);S.add(NG);
-function armorParts(g){const N1=0x3a3640,N2=0x5a5461,G=0x24212a,pt=(w,h,d,c,x,y,z)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,d),M(c));m.position.set(x,y,z||0);g.add(m)};
- pt(.57,.57,.57,N1,0,1.55);pt(.6,.12,.6,N2,0,1.8);pt(.34,.1,.04,0x0e0d10,0,1.56,.3);pt(.12,.34,.04,N2,0,1.58,.3);
- pt(.58,.78,.32,N1,0,1.0);pt(.34,.34,.34,N2,0,1.15);pt(.5,.08,.34,N2,0,.64);
+function armorParts(g,gl){gl=gl||g;const N1=0x3f303b,N2=0x5d565d,G=0x241f20,pt=(w,h,d,c,x,y,z,gg)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,d),M(c));m.position.set(x,y,z||0);(gg||g).add(m)};
+ pt(.57,.57,.57,N1,0,1.55);pt(.6,.12,.6,N2,0,1.8);pt(.34,.1,.04,0x111111,0,1.56,.3);pt(.12,.34,.04,N2,0,1.58,.3);
+ pt(.58,.78,.32,N1,0,1.0);pt(.34,.34,.34,N2,0,1.15);pt(.5,.08,.34,N2,0,.64,0,gl);
  pt(.3,.32,.3,N2,-.36,1.22);pt(.3,.32,.3,N2,.36,1.22);pt(.26,.3,.26,N1,-.36,.83);pt(.26,.3,.26,N1,.36,.83);
- pt(.28,.52,.28,N1,-.13,.5);pt(.28,.52,.28,N1,.13,.5);pt(.3,.2,.34,G,-.13,.1,.03);pt(.3,.2,.34,G,.13,.1,.03)}
-const AR=new T.Group();armorParts(AR);NG.add(AR);
+ pt(.28,.52,.28,N1,-.13,.5,0,gl);pt(.28,.52,.28,N1,.13,.5,0,gl);pt(.3,.2,.34,G,-.13,.1,.03);pt(.3,.2,.34,G,.13,.1,.03)}
+const AR=new T.Group(),AR2=new T.Group();armorParts(AR,AR2);NG.add(AR,AR2);
 const PMD=new T.Group();{const pt=(w,h,d,c,x,y)=>{const m=new T.Mesh(new T.BoxGeometry(w,h,d),M(c));m.position.set(x,y,0);PMD.add(m)};pt(.5,.5,.5,0xc68b64,0,1.55);pt(.5,.7,.25,0x2f6fd0,0,1.0);pt(.22,.7,.22,0xc68b64,-.36,1.0);pt(.22,.7,.22,0xc68b64,.36,1.0);pt(.24,.7,.24,0x3b4aa0,-.13,.35);pt(.24,.7,.24,0x3b4aa0,.13,.35)}
-armorParts(PMD);PMD.visible=false;S.add(PMD);
+const PAR=new T.Group(),PAR2=new T.Group();armorParts(PAR,PAR2);PMD.add(PAR,PAR2);PMD.visible=false;S.add(PMD);
+// Minecraft armour: layer 1 (helmet, chestplate, boots) and layer 2 (leggings) textures, 64x32 each, read from the player's own files
+const AT={1:null,2:null};
+function uvBox(w,h,d,pw,ph,pd,u,v,mir){const g=new T.BoxGeometry(w,h,d),uv=g.attributes.uv,R=(x,y,ww,hh)=>{let a=x/64,b=(x+ww)/64;const t=1-y/32,bt=1-(y+hh)/32;if(mir)[a,b]=[b,a];return[a,t,b,t,a,bt,b,bt]},
+ F=[R(u+pd+pw,v+pd,pd,ph),R(u,v+pd,pd,ph),R(u+pd,v,pw,pd),R(u+pd+pw,v,pw,pd),R(u+pd,v+pd,pw,ph),R(u+pd+pw+pd,v+pd,pw,ph)];
+ if(mir)[F[0],F[1]]=[F[1],F[0]];F.forEach((f,i)=>{for(let j=0;j<8;j++)uv.array[i*8+j]=f[j]});uv.needsUpdate=true;return g}
+function texArmor(){const G1=new T.Group(),G2=new T.Group(),P={},mk=(G,L,k,w,h,d,pw,ph,pd,u,v,inf,x,y,mir)=>{const me=new T.Mesh(uvBox(w+inf*2,h+inf*2,d+inf*2,pw,ph,pd,u,v,mir),new T.MeshLambertMaterial({alphaTest:.5}));me.position.set(x,y,0);me.userData={L,k};me.visible=false;G.add(me);(P[k]=P[k]||[]).push(me)};
+ mk(G1,1,'h',.5,.5,.5,8,8,8,0,0,.0625,0,1.55);
+ mk(G1,1,'c',.5,.7,.25,8,12,4,16,16,.0625,0,1);mk(G1,1,'c',.25,.7,.25,4,12,4,40,16,.0625,-.375,1);mk(G1,1,'c',.25,.7,.25,4,12,4,40,16,.0625,.375,1,1);
+ mk(G1,1,'b',.25,.7,.25,4,12,4,0,16,.0625,-.125,.35);mk(G1,1,'b',.25,.7,.25,4,12,4,0,16,.0625,.125,.35,1);
+ mk(G2,2,'l',.5,.7,.25,8,12,4,16,16,.03,0,1);mk(G2,2,'l',.25,.7,.25,4,12,4,0,16,.03,-.125,.35);mk(G2,2,'l',.25,.7,.25,4,12,4,0,16,.03,.125,.35,1);
+ return{G1,G2,P}}
+const TB=texArmor(),TP=texArmor();NG.add(TB.G1,TB.G2);PMD.add(TP.G1,TP.G2);
+function armorBind(){for(const t of[TB,TP])for(const k in t.P)t.P[k].forEach(me=>{me.material.map=AT[me.userData.L];me.material.needsUpdate=true})}
+function armorVis(){const f=!!fight,a1=!!AT[1],a2=!!AT[2],on=AP.h||chest=='plate'||AP.l||AP.b;AR.visible=f&&!a1;AR2.visible=f&&!a2;PAR.visible=!a1&&!!on;PAR2.visible=!a2&&!!on;
+ for(const[t,bot]of[[TB,1],[TP,0]])for(const k in t.P)t.P[k].forEach(me=>{const o=bot||(k=='h'?AP.h:k=='c'?chest=='plate':k=='l'?AP.l:AP.b);me.visible=!!(o&&AT[me.userData.L]&&(bot?f:true))})}
 const HBX=new T.Group(),eg=(w,h,d,c,y)=>{const m=new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(w,h,d)),new T.LineBasicMaterial({color:c}));m.position.y=y;return m};
 HBX.add(eg(.6,1.8,.6,0xffffff,.9),eg(.85,2.05,.85,0xffd24a,.9),eg(.6,.02,.6,0xff2222,1.62));HBX.visible=false;S.add(HBX);
 const BI=new T.Group();BI.position.set(.42,.98,.42);BI.visible=false;NG.add(BI);let bik=null,birev=-1,bsw=0;
@@ -902,7 +917,7 @@ addEventListener('keydown',e=>{
  if(locked&&(used||/^(Space|Tab|Arrow)/.test(e.code)))e.preventDefault()});
 addEventListener('keyup',e=>{inUp(e.code)});
 addEventListener('mousemove',e=>{if(document.pointerLockElement===cv){yaw-=e.movementX*.0022;pit=Math.max(-1.55,Math.min(1.55,pit-e.movementY*.0022))}});
-addEventListener('mousedown',e=>{if(!locked)return;if(e.button!=0&&e.button!=2)e.preventDefault();inDown('Mouse'+e.button)});
+addEventListener('mousedown',e=>{if(!locked||invOpen)return;if(e.button!=0&&e.button!=2)e.preventDefault();inDown('Mouse'+e.button)});
 addEventListener('mouseup',e=>inUp('Mouse'+e.button));addEventListener('auxclick',e=>{if(locked||listen)e.preventDefault()});
 addEventListener('contextmenu',e=>e.preventDefault());
 addEventListener('wheel',e=>{if(locked)Q.push({t:'s',i:(sel+(e.deltaY>0?1:8))%9})});
@@ -915,7 +930,7 @@ const IC=[p=>{for(let i=0;i<10;i++)p(3+i,12-i,1,1,'#7a5a2b');p(11,3,3,3,'#5a4a54
  p=>{p(4,4,8,8,'#bcd8f2');p(6,6,4,4,'#fff');p(3,7,2,2,'#bcd8f2');p(11,7,2,2,'#bcd8f2')},
  p=>{for(let i=0;i<9;i++)p(3+i,12-i,2,2,i%3?'#c33':'#eee');p(11,3,2,2,'#ffd35a')},
  p=>{p(2,3,5,10,'#9b8cc4');p(9,3,5,10,'#9b8cc4');p(5,2,3,4,'#7d6ea8');p(8,2,3,4,'#7d6ea8')},
- p=>{p(3,3,10,10,'#3d3438');p(6,3,4,3,'#8b8b8b');p(3,3,2,3,'#554a50');p(11,3,2,3,'#554a50')}];
+ p=>{p(3,3,10,10,'#3f303b');p(6,3,4,3,'#8b8b8b');p(3,3,2,3,'#5d565d');p(11,3,2,3,'#5d565d')}];
 IC[6]=p=>{for(let i=0;i<9;i++)p(4+i,11-i,2,2,'#d5dde5');p(2,11,5,2,'#6b4a2b');p(3,10,2,5,'#7a5a2b');p(11,2,3,3,'#eaf1f7')};
 IC[7]=p=>{for(let i=0;i<10;i++)p(3+i,13-i,1,1,'#7a5a2b');p(8,2,6,5,'#5b5b66');p(9,3,4,3,'#8a8a96');p(7,5,2,3,'#5b5b66')};
 IC[8]=p=>{p(5,3,6,10,'#0b4a40');p(3,5,10,6,'#0b4a40');p(4,4,8,8,'#12806a');p(5,5,6,6,'#1fa88a');p(6,6,3,3,'#8af0d0')};
@@ -1009,15 +1024,55 @@ function renderKeys(){const lab=Object.fromEntries(BL),cnt={};
 function openCtl(t){ctlOpen=1;listen=null;for(const c in K)K[c]=0;$('ctl').style.display='flex';renderKeys();renderInv();if(t)ctlTab(t)}
 function closeCtl(){ctlOpen=0;listen=null;$('ctl').style.display='none';renderInv()}
 function openInv(){invG=locked?1:0;invOpen=1;locked=0;for(const c in K)K[c]=0;useHeld=0;try{document.exitPointerLock()}catch(_){}ov.style.display='none';$('inv').style.display='flex';renderInv()}
-function closeInv(){invOpen=0;listen=null;$('inv').style.display='none';if(invG){invG=0;ov.onclick({target:ov,stopPropagation(){}})}else if(!locked)ov.style.display='flex'}
+function closeInv(){curBack();invOpen=0;listen=null;$('inv').style.display='none';if(invG){invG=0;ov.onclick({target:ov,stopPropagation(){}})}else if(!locked)ov.style.display='flex'}
 function resync(){lastK=hk();delay=D(lastK);imgRev++;save();renderInv()}
-IC[11]=p=>{p(3,3,10,6,'#3d3438');p(3,9,3,4,'#3d3438');p(10,9,3,4,'#3d3438');p(5,5,6,2,'#8b8b8b')};IC[12]=p=>{p(3,2,10,4,'#3d3438');p(3,6,4,8,'#3d3438');p(9,6,4,8,'#3d3438')};IC[13]=p=>{p(2,8,5,6,'#3d3438');p(9,8,5,6,'#3d3438');p(2,12,5,2,'#8b8b8b');p(9,12,5,2,'#8b8b8b')};
+IC[11]=p=>{p(3,3,10,6,'#3f303b');p(3,9,3,4,'#3f303b');p(10,9,3,4,'#3f303b');p(5,5,6,2,'#766a76')};IC[12]=p=>{p(3,2,10,4,'#3f303b');p(3,6,4,8,'#3f303b');p(9,6,4,8,'#3f303b')};IC[13]=p=>{p(2,8,5,6,'#3f303b');p(9,8,5,6,'#3f303b');p(2,12,5,2,'#766a76');p(9,12,5,2,'#766a76')};
 const aim=id=>IMG[id]?IMG[id].src:pimg(id),isM=x=>typeof x=='string'&&x!='o';
 IC[14]=p=>{p(6,1,4,2,'#9a7b4f');p(7,3,2,3,'#cfd8dc');p(4,6,8,8,'#33ebff');p(3,8,1,4,'#33ebff');p(12,8,1,4,'#33ebff');p(5,7,2,2,'#eaf8ff')};
 IC[15]=p=>{p(6,1,4,2,'#9a7b4f');p(7,3,2,3,'#cfd8dc');p(4,6,8,8,'#ffc700');p(3,8,1,4,'#ffc700');p(12,8,1,4,'#ffc700');p(5,7,2,2,'#fff3b0')};
 IC[16]=p=>{p(6,1,4,2,'#9a7b4f');p(7,3,2,3,'#cfd8dc');p(4,6,8,8,'#f82423');p(3,8,1,4,'#f82423');p(12,8,1,4,'#f82423');p(7,8,2,4,'#fff');p(6,9,4,2,'#fff')};
 IC[17]=p=>{p(3,5,10,7,'#7a2e1d');p(4,6,8,5,'#a8452b');p(10,6,3,3,'#e9d9c3');p(5,7,3,2,'#c75a3a');p(3,5,10,1,'#5a1f12');p(3,11,10,1,'#5a1f12')};
 let SC=16;BF.x=0;BF.t=0;let showPerf=0,lpf=0,pTk=0,pRd=0,pHd=0;
+// Minecraft-style 16x16 icons (own artwork); real textures from the jar picker override these
+const PX=(rows,pal)=>p=>{rows.forEach((r,y)=>{for(let x=0;x<r.length;x++){const c=r[x];if(c!='.'&&pal[c])p(x,y,1,1,pal[c])}})};
+const shade=(h,f)=>{const n=parseInt(h.slice(1),16),m=f<0?0:255,k=Math.abs(f);return '#'+[n>>16,n>>8&255,n&255].map(v=>Math.round(v+(m-v)*k).toString(16).padStart(2,'0')).join('')};
+const potRows=(()=>{const R=[],mk=(w,hl,dk)=>{const l=(16-w)>>1;let s='.'.repeat(l)+'g'+'L'.repeat(w-2)+'g'+'.'.repeat(16-l-w);if(hl)s=s.slice(0,l+1)+'h'+s.slice(l+2);if(dk)s=s.slice(0,l+w-2)+'d'+s.slice(l+w-1);return s};
+ R.push('................','......kkkk......','......cccc......','.......gg.......','.......gg.......','......gggg......');
+ [[6,0,0],[8,1,0],[10,1,0],[10,1,1],[10,0,1],[10,0,1],[8,0,1],[6,0,1]].forEach(a=>R.push(mk(...a)));
+ R.push('......gggg......','................');return R})();
+const potPal=c=>({k:'#5a3d1e',c:'#9a7b4f',g:'#dfeaf0',L:c,h:shade(c,.45),d:shade(c,-.35)});
+IC[14]=PX(potRows,potPal('#33ebff'));IC[15]=PX(potRows,potPal('#ffc700'));IC[16]=PX(potRows,potPal('#f82423'));
+const steakRows=(()=>{const R=[];for(let y=0;y<16;y++){let s='';for(let x=0;x<16;x++){const dx=(x-7.5)/6.8,dy=(y-8)/4.8,d=dx*dx+dy*dy;s+=d>1?'.':d>.72?'k':(x+y)%5==0?'G':(dx>.25&&dy<-.1&&d>.45)?'f':'B'}R.push(s)}return R})();
+IC[17]=PX(steakRows,{k:'#5b2a14',B:'#a8502a',G:'#74351b',f:'#ecd2ae'});
+const carrotRows=(()=>{const a=[11.5,3.5],b=[3,13],vx=b[0]-a[0],vy=b[1]-a[1],lf=['11,2','12,1','13,2','12,2','12,0','10,1','14,1','13,1','11,1'],R=[];
+ for(let y=0;y<16;y++){let s='';for(let x=0;x<16;x++){const px=x+.5,py=y+.5,t=Math.max(0,Math.min(1,((px-a[0])*vx+(py-a[1])*vy)/(vx*vx+vy*vy))),cx=a[0]+vx*t,cy=a[1]+vy*t,d=Math.hypot(px-cx,py-cy),r=2.9-2.3*t;
+  let c='.';if(d<=r){c=(t>.05&&d>r-.8)?'d':(t<.45&&px<cx&&py<cy+.6&&d<r*.6)?'h':'G';if(c=='G'&&Math.floor(t*9)%3==1&&d>r*.5)c='d'}else if(lf.includes(x+','+y))c='l';s+=c}R.push(s)}return R})();
+IC[10]=PX(carrotRows,{G:'#f2c230',d:'#b8860b',h:'#fff2a8',l:'#4caf3a'});
+IC[9]=PX(['................','......yyyy......','.....yYYYYy.....','.....YeYYeY.....','.....YYYYYY.....','......YYYY......','.yy.YYYYYYYY.yy.','.yYYYYYYYYYYYYy.','..yYYYYwwYYYYy..','...yYYYeeYYYy...','...yYYYYYYYYy...','....yYYYYYYy....','.....yYYyyYYy...','......yy..yy....'],{y:'#b9871a',Y:'#f1c232',e:'#2ecc71',w:'#fff3b0'});
+const pearlRows=(()=>{const R=[];for(let y=0;y<16;y++){let s='';for(let x=0;x<16;x++){const dx=x-7.5,dy=y-7.5,d=Math.hypot(dx,dy);s+=d>6.4?'.':d>5.4?'k':((x*3+y*5)%7<2)?'L':(dx+dy<-3&&d<4.6)?'h':'M'}R.push(s)}return R})();
+IC[8]=PX(pearlRows,{k:'#06332a',M:'#0f7f68',L:'#2fbf9f',h:'#7ae6cf'});
+function texName(p){const s=p.split('/');if(s[0]!='assets'||s[1]!='minecraft'||s[2]!='textures')return null;const f=s[s.length-1];if(!f.endsWith('.png'))return null;const b=f.slice(0,-4),d=s.slice(3,-1).join('/');
+ if(b=='netherite'&&d=='entity/equipment/humanoid')return 'armor_1';if(b=='netherite'&&d=='entity/equipment/humanoid_leggings')return 'armor_2';
+ if(d=='models/armor'&&b=='netherite_layer_1')return 'armor_1';if(d=='models/armor'&&b=='netherite_layer_2')return 'armor_2';
+ return (d=='item'||d=='block')&&TWL.test(b)?b:null}
+for(const L of[1,2]){$('al'+L).onclick=e=>e.stopPropagation();$('al'+L).onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{useImg('armor_'+L,r.result);saveTx('armor_'+L,r.result);$('tpf').textContent='Layer '+L+' loaded: '+f.name};r.readAsDataURL(f)}}
+function autoTex(){const h=location.hostname;if(!/^(localhost|127\.0\.0\.1|\[::1\]|192\.168\..*|10\..*)$/.test(h)){if(location.protocol=='file:')$('tpf').textContent='Opened from a file: browsers block reading a textures folder here, so use the pickers once (they are remembered), or run a local server in this folder (python -m http.server) and open http://localhost:8000.';return}
+ const go=(url,nm)=>{if(TX[nm])return;fetch(url).then(r=>r.ok?r.blob():null).then(b=>{if(!b||TX[nm])return;const fr=new FileReader();fr.onload=()=>useImg(nm,fr.result);fr.readAsDataURL(b)}).catch(()=>{})};
+ for(const[d,ns]of[['item',['netherite_spear','mace','wind_charge','firework_rocket','elytra','netherite_chestplate','netherite_sword','netherite_axe','ender_pearl','totem_of_undying','golden_carrot','cooked_beef','netherite_helmet','netherite_leggings','netherite_boots','splash_potion','potion_overlay']],['block',['grass_block_top','grass_block_side','grass_block_side_overlay','dirt','stone','cobblestone']]])ns.forEach(n=>go('textures/'+d+'/'+n+'.png',n));
+ go('textures/entity/equipment/humanoid/netherite.png','armor_1');go('textures/entity/equipment/humanoid_leggings/netherite.png','armor_2');$('tpf').textContent='Looking for a textures folder next to this page (textures/item, textures/block, textures/entity/equipment).'}
+setTimeout(autoTex,600);
+// Minecraft-style cursor: click a slot to pick the item up, click another slot to place or swap, right-click places into an empty slot
+let cur=null;
+const cop=a=>fight&&isM(a)?(F=>F(LV)):edOp;
+function setCur(c,e){cur=c;const i=$('cur');if(c){i.src=isrc(c.k);i.style.display='block';if(e){i.style.left=e.clientX+'px';i.style.top=e.clientY+'px'}}else i.style.display='none'}
+function slotClick(t,right,e){const d=t.dataset;
+ if(d.p!==undefined){if(fight)return;setCur(cur?null:{k:d.p,from:null},e);return}
+ const a=refOf(t);if(a===null)return;const it=lget(LV,a);
+ if(!cur){if(!it)return;cop(a)(A=>lset(A,a,null));setCur({k:it,from:a},e);resync();return}
+ if(right&&it)return;const k=cur.k;cop(a)(A=>lset(A,a,k));setCur(it?{k:it,from:a}:null,e);resync()}
+function curBack(){if(!cur)return;const k=cur.k,f=cur.from;let d=f;if(d===null||lget(LV,d))d=fh()!==null?fh():fmi();if(f!==null&&d!==null)cop(d)(A=>lset(A,d,k));setCur(null);resync()}
+$('inv').addEventListener('contextmenu',e=>{const t=e.target.closest('[data-s],[data-o],[data-m],[data-p]');if(t){e.preventDefault();slotClick(t,1,e)}});
+document.addEventListener('mousemove',e=>{if(cur){const i=$('cur');i.style.left=e.clientX+'px';i.style.top=e.clientY+'px'}});
 const TWL=/^(netherite_(spear|chestplate|sword|axe|helmet|leggings|boots)|mace|wind_charge|firework_rocket|elytra|ender_pearl|totem_of_undying|golden_carrot|cooked_beef|splash_potion|potion_overlay|grass_block_top|grass_block_side|grass_block_side_overlay|dirt|stone|cobblestone)$/;
 const PTT={b:null,o:null},PCOLS={14:[51,235,255],15:[255,199,0],16:[248,36,35]};
 function buildPot(){if(!PTT.b||!PTT.o)return;for(const id in PCOLS){const w=PTT.b.width,c=document.createElement('canvas');c.width=c.height=w;const g=c.getContext('2d');g.drawImage(PTT.b,0,0,w,w);const o=document.createElement('canvas');o.width=o.height=w;const q=o.getContext('2d');q.drawImage(PTT.o,0,0,w,w);q.globalCompositeOperation='multiply';q.fillStyle='rgb('+PCOLS[id].join(',')+')';q.fillRect(0,0,w,w);q.globalCompositeOperation='destination-in';q.drawImage(PTT.o,0,0,w,w);g.drawImage(o,0,0);const im=new Image();im.onload=()=>{IMG[id]=im;imgRev++};im.src=c.toDataURL()}}
@@ -1025,11 +1080,11 @@ let hov=null;
 const fh=()=>{for(let i=0;i<9;i++)if(!HB[i])return i;return null},fmi=()=>{for(let j=0;j<27;j++)if(!MI[j])return 'm'+j;return null},refOf=t=>t.dataset.o!==undefined?'o':t.dataset.m!==undefined?'m'+t.dataset.m:t.dataset.s!==undefined?+t.dataset.s:null;
 function invMove(a,b,item){(fight&&(isM(a)||isM(b))?(F=>F(LV)):edOp)(A=>{if(a!==null)lset(A,a,null);lset(A,b,item)});resync()}
 function invSwap(a,b){if(a===b||a===null||b===null)return;(fight&&(isM(a)||isM(b))?(F=>F(LV)):edOp)(A=>{const x=lget(A,a);lset(A,a,lget(A,b));lset(A,b,x)});resync()}
-$('inv').addEventListener('click',e=>{if(!e.shiftKey)return;const t=e.target.closest('[data-s],[data-o],[data-m],[data-p]');if(!t)return;e.preventDefault();
+$('inv').addEventListener('click',e=>{if(!e.shiftKey){const t=e.target.closest('[data-s],[data-o],[data-m],[data-p]');if(t)slotClick(t,0,e);return}const t=e.target.closest('[data-s],[data-o],[data-m],[data-p]');if(!t)return;e.preventDefault();
  if(t.dataset.p!==undefined){if(fight)return;const d=fh()!==null?fh():fmi();if(d!==null)invMove(null,d,t.dataset.p);return}
- const a=refOf(t),it=lget(LV,a);if(!it)return;let d=null;if(isM(a))d=fh();else if(a==='o')d=fmi()!==null?fmi():fh();else d=fmi();if(d!==null)invMove(a,d,it)});
+ const a=refOf(t),it=lget(LV,a);if(!it)return;let d=null;if(isM(a)){d=fh();if(d===null){invSwap(a,sel);return}}else if(a==='o')d=fmi()!==null?fmi():fh();else d=fmi();if(d!==null)invMove(a,d,it)});
 document.addEventListener('mouseover',e=>{if(!invOpen)return;const t=e.target.closest&&e.target.closest('[data-s],[data-o],[data-m]');hov=t?refOf(t):null});
-addEventListener('keydown',e=>{if(!invOpen||ctlOpen||listen||hov===null)return;let b=null;if(/^Digit[1-9]$/.test(e.code))b=+e.code.slice(5)-1;else if(e.code=='KeyF')b='o';if(b===null)return;e.preventDefault();e.stopImmediatePropagation();invSwap(hov,b)},true);
+addEventListener('keydown',e=>{if(!invOpen||ctlOpen||listen||hov===null)return;let b=null;const si=slotOf(e.code);if(si>=0)b=si;else if(ik('swap',e.code))b='o';if(b===null)return;e.preventDefault();e.stopImmediatePropagation();invSwap(hov,b)},true);
 const PF={get f(){return food},set f(v){food=v},get s(){return sat},set s(v){sat=v},x:0,t:0};
 function foodTick(F,hp,heal){if(F.x>=4){F.x-=4;if(F.s>0)F.s=Math.max(0,F.s-1);else F.f=Math.max(0,F.f-1)}
  if(hp<20&&F.f>=18){if(F.s>0&&F.f>=20){if(++F.t>=10){F.t=0;const h=Math.min(F.s,6);heal(h/6);F.x+=h}}else if(++F.t>=80){F.t=0;heal(1);F.x+=6}}else F.t=0}
@@ -1050,7 +1105,7 @@ function updPot(){for(let i=POT.length-1;i>=0;i--){const q=POT[i];let he=null,en
   S.remove(q.m);POT.splice(i,1)}}
  if(tk%3==0)for(const[t,e]of[['p',P],['b',N]]){if(t=='b'&&online||t=='p'&&!view3)continue;for(const[f,col]of[['sp',PCOL.spot],['st',PCOL.stpot]])if(EF[t][f]&&SMXL.length<SMXN)SMXL.push({p:[e.p[0]+(Math.random()-.5)*.8,e.p[1]+Math.random()*1.8,e.p[2]+(Math.random()-.5)*.8],v:[0,.02,0],a:0,l:14,g:0,c:col})}}
 function ctlTab(t){document.querySelectorAll('#ctl [data-t]').forEach(x=>x.classList.toggle('on',x.dataset.t==t));for(const i of['how','keys','set'])$(i).style.display=i==t?'':'none'}
-function pmR(){const c=$('pmc'),g=c.getContext('2d'),f=(x,y,w,h,k)=>{g.fillStyle=k;g.fillRect(x,y,w,h)},N1='#3d3438',N2='#6a6272',sk='#c68b64',pl=chest=='plate';g.clearRect(0,0,48,65);
+function pmR(){const c=$('pmc'),g=c.getContext('2d'),f=(x,y,w,h,k)=>{g.fillStyle=k;g.fillRect(x,y,w,h)},N1='#3f303b',N2='#5d565d',sk='#c68b64',pl=chest=='plate';g.clearRect(0,0,48,65);
  if(chest=='elytra'){f(5,20,10,26,'#9b8cc4');f(33,20,10,26,'#9b8cc4')}
  f(10,20,6,20,pl?N1:sk);f(32,20,6,20,pl?N1:sk);f(16,20,16,22,pl?N1:'#2f6fd0');
  f(16,4,16,16,AP.h?N1:sk);if(AP.h)f(16,4,16,4,N2);else{f(19,11,3,3,'#fff');f(26,11,3,3,'#fff')}
@@ -1122,7 +1177,7 @@ function frame(t){requestAnimationFrame(frame);const dt=Math.min(100,t-last);las
  if(locked&&document.visibilityState=='visible'){fpsAcc+=dt;fpsN++;if(fpsAcc>=3000){const fps=fpsN/(fpsAcc/1000);fpsAcc=0;fpsN=0;if(fpsSkip)fpsSkip=0;else if(fps<35&&!perf&&!autoPerf){autoPerf=1;perf=1;R.setPixelRatio(RSF());R.setSize(innerWidth,innerHeight,false);ui.width=0;imgRev++;lg('Low frame rate ('+(fps|0)+' fps): Performance mode switched on (change it in the inventory)')}}}else{fpsAcc=0;fpsN=0}
  if(invOpen&&t-lfx>250){lfx=t;fxR()}if(locked||(invOpen&&invG)){acc+=dt*spd;yaw+=((K.ArrowLeft?1:0)-(K.ArrowRight?1:0))*dt*.0025;pit=Math.max(-1.55,Math.min(1.55,pit+((K.ArrowUp?1:0)-(K.ArrowDown?1:0))*dt*.002));let n=0;while(acc>=50&&n++<2){const q0=performance.now();tick();pTk=pTk*.9+(performance.now()-q0)*.1;acc-=50}acc=Math.min(acc,60);}
  const a=Math.min(1,acc/50),l=(x,y)=>x+(y-x)*a;cam.position.set(l(P.pp[0],P.p[0]),l(P.pp[1],P.p[1])+1.62,l(P.pp[2],P.p[2]));if(view3){const bx=cam.position.x,by=cam.position.y,bz=cam.position.z,c3=Math.cos(pit);PMD.position.set(bx,by-1.62,bz);PMD.rotation.y=yaw+Math.PI;cam.position.set(bx+Math.sin(yaw)*c3*3.6,Math.max(.4,by-Math.sin(pit)*3.6),bz+Math.cos(yaw)*c3*3.6)}
- PMD.visible=!!view3;AR.visible=!!fight;NG.visible=!online||!!mpOpp;if(view3!==v3p){v3p=view3;$('hand').style.display=$('hand2').style.display=view3?'none':''}
+ PMD.visible=!!view3;armorVis();NG.visible=!online||!!mpOpp;if(view3!==v3p){v3p=view3;$('hand').style.display=$('hand2').style.display=view3?'none':''}
  cam.rotation.set(pit,yaw,0);lstn();wl(P.gl&&locked?Math.min(.3,Math.hypot(P.v[0],P.v[1],P.v[2])*.2):0);
  L0=[-Math.sin(yaw)*Math.cos(pit),Math.sin(pit),-Math.cos(yaw)*Math.cos(pit)];
  NG.position.set(l(N.pp[0],N.p[0]),l(N.pp[1],N.p[1]),l(N.pp[2],N.p[2]));NG.rotation.y=N.rot;SH.visible=!!shieldOn&&N.dis<=0;HBX.visible=!!showHB;HBX.position.set(NG.position.x,NG.position.y,NG.position.z);updFx(locked||(invOpen&&invG)?dt/50*spd:0);updSmash(locked||(invOpen&&invG)?dt/50*spd:0);botItem();botOff();bsw=Math.max(0,bsw-dt/180);BI.rotation.set(-bsw*1.3,-.35,-.25);NM.forEach(m=>m.emissive.setHex(N.fl?0x991111:0));
@@ -1137,12 +1192,12 @@ function buildSide(){if(!SD.b)return;const w=SD.b.width,c=document.createElement
  const t=new T.CanvasTexture(c);t.magFilter=T.NearestFilter;t.minFilter=T.NearestMipmapLinearFilter;gs.map=t;gs.needsUpdate=true}
 function useImg(n,src){const im=new Image();im.onload=()=>{const mt=TM[n];
  if(mt){const t=new T.Texture(im);t.magFilter=T.NearestFilter;t.minFilter=T.NearestMipmapLinearFilter;t.needsUpdate=true;mt.map=t;mt.needsUpdate=true;if(n=='grass_block_top'){t.wrapS=t.wrapT=T.RepeatWrapping;t.needsUpdate=true;mt.color.setHex(0x91bd59)}}
- else if(n=='splash_potion'){PTT.b=im;buildPot()}else if(n=='potion_overlay'){PTT.o=im;buildPot()}else if(n=='grass_block_side'){SD.b=im;buildSide()}else if(n=='grass_block_side_overlay'){SD.o=im;buildSide()}
+ else if(n=='armor_1'||n=='armor_2'){const t=new T.Texture(im);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;AT[n.slice(6)]=t;armorBind()}else if(n=='splash_potion'){PTT.b=im;buildPot()}else if(n=='potion_overlay'){PTT.o=im;buildPot()}else if(n=='grass_block_side'){SD.b=im;buildSide()}else if(n=='grass_block_side_overlay'){SD.o=im;buildSide()}
  else if(n in SK){IMG[SK[n]]=im;imgRev++}};im.src=src}
 function saveTx(n,src){TX[n]=src;try{localStorage.setItem('sdtx',JSON.stringify(TX))}catch(_){}}
 setTimeout(()=>{for(const n in TX)useImg(n,TX[n])},300);
 $('tp').onclick=e=>e.stopPropagation();
-$('tpd').onclick=e=>e.stopPropagation();$('tpj').onclick=e=>e.stopPropagation();$('tpj').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!window.JSZip){$('tpm').textContent='The zip reader could not load (needs internet access to cdnjs).';return}try{const z=await JSZip.loadAsync(f);let n=0;for(const p in z.files){const s=p.split('/');if(s[0]!='assets'||s[1]!='minecraft'||s[2]!='textures'||(s[3]!='item'&&s[3]!='block')||s.length!=5||!s[4].endsWith('.png'))continue;const nm=s[4].slice(0,-4);if(!TWL.test(nm))continue;const b=await z.files[p].async('base64'),src='data:image/png;base64,'+b;useImg(nm,src);saveTx(nm,src);n++}$('tpm').textContent='Loaded '+n+' textures from '+f.name}catch(_){$('tpm').textContent='Could not read that file as a zip or jar.'}};$('tpd').addEventListener('change',e=>$('tp').onchange(e));$('tpx').onclick=e=>{e.stopPropagation();try{localStorage.removeItem('sdtx')}catch(_){}location.reload()};
+$('tpd').onclick=e=>e.stopPropagation();$('tpj').onclick=e=>e.stopPropagation();$('tpj').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!window.JSZip){$('tpm').textContent='The zip reader could not load (needs internet access to cdnjs).';return}try{const z=await JSZip.loadAsync(f);let n=0;for(const p in z.files){const nm=texName(p);if(!nm)continue;const b=await z.files[p].async('base64'),src='data:image/png;base64,'+b;useImg(nm,src);saveTx(nm,src);n++}$('tpm').textContent='Loaded '+n+' textures from '+f.name}catch(_){$('tpm').textContent='Could not read that file as a zip or jar.'}};$('tpd').addEventListener('change',e=>{let n=0;for(const f of e.target.files){const q=(f.webkitRelativePath||'').split('/'),i=q.indexOf('textures');let rel=i>=0?q.slice(i+1).join('/'):q.join('/');if(rel.startsWith('equipment/'))rel='entity/'+rel;const nm=texName('assets/minecraft/textures/'+rel);if(!nm)continue;const r=new FileReader();r.onload=()=>{useImg(nm,r.result);saveTx(nm,r.result)};r.readAsDataURL(f);n++}$('tpm').textContent='Reading '+n+' textures from the folder'});$('tpx').onclick=e=>{e.stopPropagation();try{localStorage.removeItem('sdtx')}catch(_){}location.reload()};
 $('tp').onchange=e=>{for(const f of e.target.files){
  if(/\.html?$/i.test(f.name)){f.text().then(t=>{for(const m of t.matchAll(/(\w+):'(data:image\/png;base64,[^']+)'/g))if(m[1] in SK){useImg(m[1],m[2]);saveTx(m[1],m[2])}});continue}
  const n=f.name.replace(/\.png$/i,'');if(!TWL.test(n))continue;const r=new FileReader();r.onload=()=>{useImg(n,r.result);saveTx(n,r.result)};r.readAsDataURL(f)}};
