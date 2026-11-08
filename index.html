@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Spear &amp; Mace Dojo</title>
 <style>
-:root{--bg:#10151c;--panel:#1d242d;--fg:#eef2f6;--mut:#a9b8c8;color-scheme:dark;--hs:clamp(480px,105vh,1400px);--hr:-20vw;--hb:-22vh;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root{--bg:#10151c;--panel:#1d242d;--fg:#eef2f6;--mut:#a9b8c8;color-scheme:dark;--hs:clamp(480px,105vh,1400px);--hr:-11vw;--hl:-20vw;--hb:-22vh;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151c;--panel:#1d242d;--fg:#eef2f6;--mut:#a9b8c8}}
 :root[data-theme="dark"]{--bg:#10151c;--panel:#1d242d;--fg:#eef2f6;--mut:#a9b8c8}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -44,11 +44,11 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 .pool{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.pool .sl{width:54px}
 #binds{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:10px 0}#binds label{font-size:13px;color:var(--mut)}
 #inv button#invx{font:inherit;padding:6px 18px;cursor:pointer;background:#2e7d32;color:#fff;border:0;border-radius:6px}
-#hand2{--rx:-1deg;--ry:32deg;--rz:8deg;--mx:-1;position:fixed;left:var(--hr);bottom:var(--hb);width:var(--hs);height:var(--hs);perspective:calc(var(--hs)*3.3);pointer-events:none}
+#hand2{--rx:-1deg;--ry:32deg;--rz:8deg;--mx:-1;position:fixed;left:var(--hl);bottom:var(--hb);width:var(--hs);height:var(--hs);perspective:calc(var(--hs)*3.3);pointer-events:none}
 #rise2{will-change:transform;width:100%;height:100%;transform-style:preserve-3d}
 #hold2{will-change:transform;position:relative;width:100%;height:100%;transform-style:preserve-3d;transform:translate3d(var(--cx,0px),var(--cy,0px),var(--cz,0px)) rotateX(calc(var(--rx) + var(--crx,0deg))) rotateY(calc(var(--ry) + var(--cry,0deg))) rotateZ(calc(var(--rz) + var(--crz,0deg))) scaleX(var(--mx,1))}
 #hold2.sw{animation:swg2 .3s ease-in-out}
-@keyframes swg2{0%,100%{transform:translate3d(0,0,0) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz)) scaleX(var(--mx,1))}40%{transform:translate3d(calc(50vw - var(--hr) - var(--hs)/2),calc(-50vh + var(--hb) + var(--hs)/2),-160px) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(103deg) scaleX(var(--mx,1))}}
+@keyframes swg2{0%,100%{transform:translate3d(0,0,0) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(var(--rz)) scaleX(var(--mx,1))}40%{transform:translate3d(calc(50vw - var(--hl) - var(--hs)/2),calc(-50vh + var(--hb) + var(--hs)/2),-160px) rotateX(var(--rx)) rotateY(var(--ry)) rotateZ(103deg) scaleX(var(--mx,1))}}
 .mrow{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}.mrow button,#go{font:inherit;padding:6px 14px;cursor:pointer;background:#2b3542;color:var(--fg);border:1px solid #3b4654;border-radius:6px}
 .mrow button.on{background:#2e7d32;border-color:#2e7d32;color:#fff}#go{background:#2e7d32;border-color:#2e7d32;color:#fff;padding:8px 28px;font-weight:bold}
 #ctl{position:fixed;inset:0;display:none;align-items:flex-start;justify-content:center;background:rgba(8,12,18,.9);z-index:10;padding:12px;overflow:auto}
@@ -208,7 +208,7 @@ const BO=new T.Group();BO.position.set(-.42,.98,.42);BO.visible=false;NG.add(BO)
 var ZR={},ZS={ng:{ph:0,f:0,g:0},pm:{ph:0,f:0,g:0}},psw=0;
 function zRig(root,groups){const R={h:[],a:[[],[]],l:[[],[]]};for(const g of[root,...groups]){const mk=(x,y)=>{const p=new T.Group();p.position.set(x,y,0);g.add(p);return p},H=mk(0,1.42),A0=mk(-.36,1.38),A1=mk(.36,1.38),L0=mk(-.13,.7),L1=mk(.13,.7);for(const m of g.children.slice()){if(!m.isMesh||m.userData.gl)continue;const x=m.position.x,y=m.position.y;let p=null;if(y>1.43)p=H;else if(Math.abs(x)>.3&&y>.72&&y<=1.45)p=x<0?A0:A1;else if(y<=.72&&Math.abs(x)>.05)p=x<0?L0:L1;if(p){p.add(m);m.position.sub(p.position)}}R.h.push(H);R.a[0].push(A0);R.a[1].push(A1);R.l[0].push(L0);R.l[1].push(L1)}return R}
 ZR.ng=zRig(NG,[AR,AR2,TB.G1,TB.G2]);ZR.pm=zRig(PMD,[PAR,PAR2,TP.G1,TP.G2]);
-{const rp=ZR.ng.a[1][0],lp=ZR.ng.a[0][0];rp.add(BI);BI.position.set(.06,-.4,.42);lp.add(BO);BO.position.set(-.06,-.4,.42)}
+{const rp=ZR.ng.a[1][0],lp=ZR.ng.a[0][0];rp.add(BI);BI.position.set(0,-.62,.1);lp.add(BO);BO.position.set(-.06,-.4,.42)}
 NG.rotation.order='YXZ';PMD.rotation.order='YXZ';
 const zwr=a=>{a%=6.2832;return a>3.1416?a-6.2832:a<-3.1416?a+6.2832:a};
 function zAnim(R,S,o,dt,root){const k=Math.min(2,dt/50),t=o.t;if(S.by===undefined)S.by=o.ly;const d=zwr(o.ly-S.by);
@@ -229,7 +229,7 @@ function zFrame(dt,t){psw=Math.max(0,psw-dt/180);
  if(NG.visible){if(!online){N.pt=Math.atan2(P.p[1]-N.p[1],Math.hypot(P.p[0]-N.p[0],P.p[2]-N.p[2])||1)*.8;N.ea=BF.eat>0;N.gl=false;N.ch=0}
   const bi=zAnim(ZR.ng,ZS.ng,{hs:Math.hypot(N.v[0],N.v[2]),og:N.og,ly:N.rot,pt:N.pt||0,ea:N.ea,gl:N.gl,sw:bsw,spear:bik=='spear',ch:N.ch||0,t},dt,NG);BI.rotation.set(bi[0],bi[1]-(BWP(bik)?1:0),bi[2]-(BWP(bik)?.45:0))}
  if(PMD.visible)zAnim(ZR.pm,ZS.pm,{hs:Math.hypot(P.v[0],P.v[2]),og:P.og,ly:yaw+Math.PI,pt:pit,ea:eatHand!=null,gl:!!P.gl,sw:psw,spear:lastK=='spear',ch:chT,t},dt,PMD);
- {const q=lastK=='spear'&&chHand!='off'&&chT>0&&chT<=175?zLerp(ZF,chT):[0,0,0,0,0,0,0,0],bq=ZS.bq||[-1,-32,-8],tg=[q[0]+q[6]*(-.34*innerWidth+zhs()),q[1]+q[6]*(-.4*innerHeight+zhs()),q[2]*zhs()/100,q[3],q[4],q[5]+q[6]*(-103-bq[2])];const c=ZS.fp||(ZS.fp=[0,0,0,0,0,0]),kk=Math.min(1,dt/70);for(let i=0;i<6;i++)c[i]+=(tg[i]-c[i])*kk;const s=c.map(v=>v.toFixed(1)).join();if(s!==ZS.fs){ZS.fs=s;const h=$('hold').style;h.setProperty('--cx',c[0]+'px');h.setProperty('--cy',c[1]+'px');h.setProperty('--cz',c[2]+'px');h.setProperty('--crx',c[3]+'deg');h.setProperty('--cry',c[4]+'deg');h.setProperty('--crz',c[5]+'deg')}}}
+ {const q=lastK=='spear'&&chHand!='off'&&chT>0&&chT<=175?zLerp(ZF,chT):[0,0,0,0,0,0,0,0],bq=ZS.bq||[-1,-32,-8],tg=[q[0]+q[6]*(-.25*innerWidth+zhs()),q[1]+q[6]*(-.4*innerHeight+zhs()),q[2]*zhs()/100,q[3],q[4],q[5]+q[6]*(-103-bq[2])];const c=ZS.fp||(ZS.fp=[0,0,0,0,0,0]),kk=Math.min(1,dt/70);for(let i=0;i<6;i++)c[i]+=(tg[i]-c[i])*kk;const s=c.map(v=>v.toFixed(1)).join();if(s!==ZS.fs){ZS.fs=s;const h=$('hold').style;h.setProperty('--cx',c[0]+'px');h.setProperty('--cy',c[1]+'px');h.setProperty('--cz',c[2]+'px');h.setProperty('--crx',c[3]+'deg');h.setProperty('--cry',c[4]+'deg');h.setProperty('--crz',c[5]+'deg')}}}
 var bok=null;
 function botOff(){const k=online?(N.ok&&N.ok!='shield'?N.ok:null):(TO.b.n>0?'totem':null),on=!!fight&&(!online||!!mpOpp)&&!!k&&BT.rt<=0;if(BO.visible!==on)BO.visible=on;if(birev2===imgRev&&bok===k)return;birev2=imgRev;bok=k;while(BO.children.length)BO.remove(BO.children[0]);if(!k)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide});for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(.7,.7),m);q.position.z=z*.02;BO.add(q)}}
 function icoTex(id){if(IMG[id]){const t=new T.Texture(IMG[id]);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;return t}
@@ -1417,7 +1417,7 @@ function shdOppInit(){const Q=(x,y,z)=>new T.Quaternion().setFromEuler(new T.Eul
  [ZR.ng.a[1][0],ZR.ng.a[0][0]].forEach(p=>{const g=shdMesh();g.scale.setScalar(.052);g.visible=false;p.add(g);SOP.g.push(g)})}
 function shdOpp(dt){if(!SOP)return;const on=!!online&&!!mpOpp;
  for(let i=0;i<2;i++){const g=SOP.g[i],s=i?-1:1,has=on&&(i?N.ok=='shield':BT.k=='shield'),up=has&&N.sh==(i?2:1);g.visible=has;SOP.k[i]+=((up?1:0)-SOP.k[i])*Math.min(1,dt/80);if(!has)continue;const k=SOP.k[i];
-  g.position.set(s*.2*(1-2*k),-.45,.08*(1-k));g.quaternion.copy(SOP.qa[i]).slerp(SOP.qb,k);
+  g.position.set(s*(.2-.1*k),-.45-.45*k,.08*(1-k));g.quaternion.copy(SOP.qa[i]).slerp(SOP.qb,k);
   if(k>.01)(i?ZR.ng.a[0]:ZR.ng.a[1]).forEach(p=>{p.rotation.x+=(-1.45-p.rotation.x)*k})}}
 zArmSet();shdInit();shdOppInit();shdIcon();texList();
 </script></body></html>
