@@ -228,7 +228,7 @@ function zLerp(tab,ch){for(let i=1;i<tab.length;i++)if(ch<=tab[i][0]){const a=ta
 function zFrame(dt,t){psw=Math.max(0,psw-dt/180);
  if(NG.visible){if(!online){N.pt=Math.atan2(P.p[1]-N.p[1],Math.hypot(P.p[0]-N.p[0],P.p[2]-N.p[2])||1)*.8;N.ea=BF.eat>0;N.gl=false;N.ch=0}
   const bi=zAnim(ZR.ng,ZS.ng,{hs:Math.hypot(N.v[0],N.v[2]),og:N.og,ly:N.rot,pt:N.pt||0,ea:N.ea,gl:N.gl,sw:bsw,spear:bik=='spear',ch:N.ch||0,t},dt,NG);BI.rotation.set(bi[0],bi[1]-(BWP(bik)?1:0),bi[2]-(BWP(bik)?.45:0))}
- if(PMD.visible)zAnim(ZR.pm,ZS.pm,{hs:Math.hypot(P.v[0],P.v[2]),og:P.og,ly:yaw+Math.PI,pt:pit,ea:eatHand!=null,gl:!!P.gl,sw:psw,spear:lastK=='spear',ch:chT,t},dt,PMD);
+ if(PMD.visible)PBI=zAnim(ZR.pm,ZS.pm,{hs:Math.hypot(P.v[0],P.v[2]),og:P.og,ly:yaw+Math.PI,pt:pit,ea:eatHand!=null,gl:!!P.gl,sw:psw,spear:lastK=='spear',ch:chT,t},dt,PMD);
  {const q=lastK=='spear'&&chHand!='off'&&chT>0&&chT<=175?zLerp(ZF,chT):[0,0,0,0,0,0,0,0],bq=ZS.bq||[-1,-32,-8],tg=[q[0]+q[6]*(-.25*innerWidth+zhs()),q[1]+q[6]*(-.4*innerHeight+zhs()),q[2]*zhs()/100,q[3],q[4],q[5]+q[6]*(-103-bq[2])];const c=ZS.fp||(ZS.fp=[0,0,0,0,0,0]),kk=Math.min(1,dt/70);for(let i=0;i<6;i++)c[i]+=(tg[i]-c[i])*kk;const s=c.map(v=>v.toFixed(1)).join();if(s!==ZS.fs){ZS.fs=s;const h=$('hold').style;h.setProperty('--cx',c[0]+'px');h.setProperty('--cy',c[1]+'px');h.setProperty('--cz',c[2]+'px');h.setProperty('--crx',c[3]+'deg');h.setProperty('--cry',c[4]+'deg');h.setProperty('--crz',c[5]+'deg')}}}
 var bok=null;
 function botOff(){const k=online?(N.ok&&N.ok!='shield'?N.ok:null):(TO.b.n>0?'totem':null),on=!!fight&&(!online||!!mpOpp)&&!!k&&BT.rt<=0;if(BO.visible!==on)BO.visible=on;if(birev2===imgRev&&bok===k)return;birev2=imgRev;bok=k;while(BO.children.length)BO.remove(BO.children[0]);if(!k)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide});for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(.7,.7),m);q.position.z=z*.02;BO.add(q)}}
@@ -1295,7 +1295,7 @@ function frame(t){requestAnimationFrame(frame);zGlintT(t);const dt=Math.min(100,
  L0=[-Math.sin(yaw)*Math.cos(pit),Math.sin(pit),-Math.cos(yaw)*Math.cos(pit)];
  NG.position.set(l(N.pp[0],N.p[0]),l(N.pp[1],N.p[1]),l(N.pp[2],N.p[2]));NG.rotation.y=N.rot;SH.visible=!!shieldOn&&N.dis<=0;HBX.visible=!!showHB;HBX.position.set(NG.position.x,NG.position.y,NG.position.z);updFx(locked||(invOpen&&invG)?dt/50*spd:0);updSmash(locked||(invOpen&&invG)?dt/50*spd:0);updSpr(locked||(invOpen&&invG)?dt/50*spd:0);botItem();botOff();bsw=Math.max(0,bsw-dt/180);NM.forEach(m=>m.emissive.setHex(N.fl?0x991111:0));
  PRL.concat(WC).forEach(w=>{if(w.q)w.m.position.set(l(w.q[0],w.p[0]),l(w.q[1],w.p[1]),l(w.q[2],w.p[2]))});
- zFrame(dt,t);hand();zGlintWatch();shdUpd(dt);zCharge2(dt);shdOpp(dt);if(invOpen)cdDom();{const yy=Math.round((1-meter())*110*zhs()/120);if(yy!==ly){ly=yy;$('rise').style.setProperty('--y',yy+'px')}}
+ zFrame(dt,t);hand();zGlintWatch();shdUpd(dt);zCharge2(dt);shdOpp(dt);plFrame(dt);shdPly(dt);if(invOpen)cdDom();{const yy=Math.round((1-meter())*110*zhs()/120);if(yy!==ly){ly=yy;$('rise').style.setProperty('--y',yy+'px')}}
  {const q1=performance.now();R.render(S,cam);shdRender();pRd=pRd*.9+(performance.now()-q1)*.1}if(t-lh>33){lh=t;const q2=performance.now();hud();pHd=pHd*.9+(performance.now()-q2)*.1}if(showPerf&&t-lpf>500){lpf=t;$('pf').textContent=Math.round(1000/Math.max(1,dt))+' fps | tick '+pTk.toFixed(2)+' ms | render (CPU) '+pRd.toFixed(2)+' ms | hud '+pHd.toFixed(2)+' ms | draw calls '+R.info.render.calls+' | triangles '+R.info.render.triangles}}
 const SK={experience_bottle:18,netherite_spear:0,spear:0,mace:1,netherite_mace:1,wind_charge:2,wind:2,firework_rocket:3,elytra:4,netherite_chestplate:5,netherite_sword:6,sword:6,netherite_axe:7,axe:7,ender_pearl:8,pearl:8,totem_of_undying:9,totem:9,golden_carrot:10,carrot:10,gcarrot:10,cooked_beef:17,netherite_helmet:11,netherite_leggings:12,netherite_boots:13,diamond_sword:23,diamond_axe:24,golden_apple:25,diamond_helmet:19,diamond_chestplate:20,diamond_leggings:21,diamond_boots:22},
  TM={grass_block_top:gt,dirt:dt,stone:st,cobblestone:st},SD={b:null,o:null};let TX={};
@@ -1378,7 +1378,7 @@ IC[21]=p=>{p(3,2,10,4,'#2fb5ad');p(3,6,4,8,'#2fb5ad');p(9,6,4,8,'#2fb5ad')};
 IC[22]=p=>{p(2,8,5,6,'#2fb5ad');p(9,8,5,6,'#2fb5ad');p(2,12,5,2,'#8cf2ea');p(9,12,5,2,'#8cf2ea')};
 IC[26]=p=>{p(4,2,8,11,'#6b4a2b');p(4,2,8,1,'#b9bcc2');p(4,12,8,1,'#b9bcc2');p(4,2,1,11,'#b9bcc2');p(11,2,1,11,'#b9bcc2');p(7,5,2,4,'#8a6a3a')};
 function uvBoxT(w,h,d,pw,ph,pd,u,v){const g=new T.BoxGeometry(w,h,d),uv=g.attributes.uv,Rg=(x,y,ww,hh)=>{const a=x/64,b=(x+ww)/64,t=1-y/64,bt=1-(y+hh)/64;return[a,t,b,t,a,bt,b,bt]},F=[Rg(u+pd+pw,v+pd,pd,ph),Rg(u,v+pd,pd,ph),Rg(u+pd,v,pw,pd),Rg(u+pd+pw,v,pw,pd),Rg(u+pd,v+pd,pw,ph),Rg(u+pd+pw+pd,v+pd,pw,ph)];F.forEach((f,i)=>{for(let j=0;j<8;j++)uv.array[i*8+j]=f[j]});uv.needsUpdate=true;return g}
-function shdFb(){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.fillStyle='#5a3d1e';g.fillRect(0,0,64,64);
+function shdFb(){return shdFbD();const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d');g.fillStyle='#5a3d1e';g.fillRect(0,0,64,64);
  for(let y=1;y<23;y+=3){g.fillStyle=((y/3)|0)%2?'#7a5530':'#6b4a2b';g.fillRect(1,y,12,3)}
  g.fillStyle='#8a6a3a';g.fillRect(14,1,12,22);g.fillStyle='#b9bcc2';for(const x of[1,14]){g.fillRect(x,1,12,1);g.fillRect(x,22,12,1);g.fillRect(x,1,1,22);g.fillRect(x+11,1,1,22)}
  const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return t}
@@ -1386,8 +1386,8 @@ function shdMesh(){const g=new T.Group(),p=new T.Mesh(uvBoxT(12,22,1,12,22,1,0,0
 function shdInit(){SHM=new T.MeshLambertMaterial({map:shdFb(),alphaTest:.1});SS=new T.Scene();SS.add(new T.AmbientLight(0xffffff,.8));const l=new T.DirectionalLight(0xffffff,.5);l.position.set(.3,.8,.6);SS.add(l);cam2=new T.PerspectiveCamera(70,1,.05,50);for(const k of['R','L']){const g=shdMesh();g.visible=false;g.userData.k=0;SS.add(g);SHW[k]=g}}
 function shdTex(im){const t=new T.Texture(im);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;SHM.map=t;SHM.needsUpdate=true;shdIcon()}
 // inventory/hotbar icon = the item's gui display (rotation 15,-25,-5, translation 2,3,0, scale .65), rendered once into a small canvas
-function shdIcon(){try{if(!SHI){const r=new T.WebGLRenderer({antialias:false,alpha:true,preserveDrawingBuffer:true});r.setSize(32,32,false);r.setPixelRatio(1);const s=new T.Scene();s.add(new T.AmbientLight(0xffffff,.75));const l=new T.DirectionalLight(0xffffff,.55);l.position.set(.4,.6,1);s.add(l);const gg=new T.Group();gg.add(shdMesh());s.add(gg);SHI={r,s,o:new T.OrthographicCamera(-8,8,8,-8,-100,100),gg}}
- const q=SHI;q.gg.rotation.order='ZYX';q.gg.rotation.set(15*D2R,-25*D2R,-5*D2R);q.gg.position.set(2,3,0);q.gg.scale.setScalar(.65);q.r.render(q.s,q.o);const c=document.createElement('canvas');c.width=c.height=32;c.getContext('2d').drawImage(q.r.domElement,0,0);c.src=c.toDataURL();IMG[26]=c;imgRev++}catch(e){}}
+function shdIcon(){try{if(!SHI){const r=new T.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});r.setSize(64,64,false);r.setPixelRatio(1);const s=new T.Scene();s.add(new T.AmbientLight(0xffffff,.75));const l=new T.DirectionalLight(0xffffff,.55);l.position.set(.4,.6,1);s.add(l);const gg=new T.Group();gg.add(shdMesh());s.add(gg);SHI={r,s,o:new T.OrthographicCamera(-8,8,8,-8,-100,100),gg}}
+ const q=SHI;q.gg.rotation.order='XYZ';q.gg.rotation.set(15*D2R,-25*D2R,-5*D2R);q.gg.position.set(2,1,0);q.gg.scale.setScalar(.65);q.r.render(q.s,q.o);const c=document.createElement('canvas');c.width=c.height=64;c.getContext('2d').drawImage(q.r.domElement,0,0);c.src=c.toDataURL();IMG[26]=c;imgRev++}catch(e){}}
 // first-person pose: hand anchor (+-0.56,-0.52,-0.72) plus the model's firstperson display values; idle -> blocking (shield_blocking.json) blended while the use key is held
 const SHD={idle:{fx:.208,ft:.69,rz:5.6},blk:{fx:.385,ft:.49,rz:-4.9},fw:.5,d:1.75};
 function shdUpd(dt){if(!SS)return;SHA=0;if(cam2.fov!==cam.fov||cam2.aspect!==cam.aspect){cam2.fov=cam.fov;cam2.aspect=cam.aspect;cam2.updateProjectionMatrix()}
@@ -1419,5 +1419,26 @@ function shdOpp(dt){if(!SOP)return;const on=!!online&&!!mpOpp;
  for(let i=0;i<2;i++){const g=SOP.g[i],s=i?-1:1,has=on&&(i?N.ok=='shield':BT.k=='shield'),up=has&&N.sh==(i?2:1);g.visible=has;SOP.k[i]+=((up?1:0)-SOP.k[i])*Math.min(1,dt/80);if(!has)continue;const k=SOP.k[i];
   g.position.set(s*(.2-.1*k),-.45-.45*k,.08*(1-k));g.quaternion.copy(SOP.qa[i]).slerp(SOP.qb,k);
   if(k>.01)(i?ZR.ng.a[0]:ZR.ng.a[1]).forEach(p=>{p.rotation.x+=(-1.45-p.rotation.x)*k})}}
-zArmSet();shdInit();shdOppInit();shdIcon();texList();
+// third person: your own model now carries what you hold (weapon pointing forward, offhand item, shield at the side / raised while blocking)
+var PBI=[0,-.35,-.25],PIG,PIO,PIK,POK,PIR=-1,SPL=null;
+function plInit(){PIG=new T.Group();PIG.position.set(0,-.62,.1);ZR.pm.a[1][0].add(PIG);PIO=new T.Group();PIO.position.set(0,-.62,.1);ZR.pm.a[0][0].add(PIO)}
+function plBuild(G,k,sz){while(G.children.length)G.remove(G.children[0]);if(!k||k=='shield'||ID[k]===undefined)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide}),w=BWP(k);for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(sz,sz),m);q.position.set(w?.3:0,w?.3:0,z*.02);G.add(q)}}
+function plFrame(dt){if(!PIG||!view3)return;const k1=hk()||null,k2=offK()||null;
+ if(k1!==PIK||k2!==POK||PIR!==imgRev){PIK=k1;POK=k2;PIR=imgRev;plBuild(PIG,k1,.85);plBuild(PIO,k2,.7)}
+ const w=BWP(k1);PIG.rotation.set(PBI[0],PBI[1]-(w?1:0),PBI[2]-(w?.45:0))}
+function shdPlyInit(){SPL={k:[0,0],g:[]};[ZR.pm.a[1][0],ZR.pm.a[0][0]].forEach(p=>{const g=shdMesh();g.scale.setScalar(.052);g.visible=false;p.add(g);SPL.g.push(g)})}
+function shdPly(dt){if(!SPL)return;
+ for(let i=0;i<2;i++){const g=SPL.g[i],s=i?-1:1,has=!!view3&&(i?offK():hk())=='shield',up=has&&shdHand==(i?'off':'main')&&tk>=shdCD;g.visible=has;SPL.k[i]+=((up?1:0)-SPL.k[i])*Math.min(1,dt/80);if(!has)continue;const k=SPL.k[i];
+  g.position.set(s*(.2-.1*k),-.45-.45*k,.08*(1-k));g.quaternion.copy(SOP.qa[i]).slerp(SOP.qb,k);
+  if(k>.01)(i?ZR.pm.a[0]:ZR.pm.a[1]).forEach(p=>{p.rotation.x+=(-1.45-p.rotation.x)*k})}}
+// detailed built-in shield texture (used until the real shield_base_nopattern.png is loaded): vertical oak planks with grain, nails and a shaded iron rim
+function shdFbD(){const c=document.createElement('canvas');c.width=c.height=64;const g=c.getContext('2d'),H=(x,y)=>{let n=(x*374761393+y*668265263)|0;n=Math.imul(n^(n>>>13),1274126177);return((n^(n>>>16))>>>0)/4294967295},P=(x,y,col)=>{g.fillStyle=col;g.fillRect(x,y,1,1)};
+ const wood=(x0,y0,w,h,vert)=>{const pl=['#6b4a26','#5c3f1f','#73512b','#614322'];for(let y=0;y<h;y++)for(let x=0;x<w;x++){const u=vert?x:y,v=vert?y:x;let col=pl[((u/3)|0)%4];const r=H(x+x0,y+y0);if(u%3==2)col='#3d2a14';else if(r<.18)col='#4d3419';else if(r>.9)col='#8a6535';else if((v+u*5)%7==0&&r<.5)col='#553a1c';P(x0+x,y0+y,col)}};
+ g.fillStyle='#3d2a14';g.fillRect(0,0,64,64);wood(1,1,12,22,1);wood(14,1,12,22,0);wood(26,0,16,12,1);
+ const rim=(x,y,w,h)=>{for(let i=0;i<w;i++){P(x+i,y,'#c3c7ce');P(x+i,y+h-1,'#686c74')}for(let j=0;j<h;j++){P(x,y+j,'#b0b4bb');P(x+w-1,y+j,'#7c8088')}P(x,y,'#d9dce1');P(x+w-1,y+h-1,'#5a5e66');
+  for(let i=1;i<w-1;i++){P(x+i,y+1,'#8d9199');P(x+i,y+h-2,'#565a62')}for(let j=2;j<h-2;j++){P(x+1,y+j,'#8d9199');P(x+w-2,y+j,'#565a62')}
+  for(const[a,b]of[[3,4],[w-4,4],[3,h-5],[w-4,h-5]]){P(x+a,y+b,'#d0d3d9');P(x+a+1,y+b,'#8a8e96');P(x+a,y+b+1,'#8a8e96')}};
+ rim(1,1,12,22);rim(14,1,12,22);
+ const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return t}
+zArmSet();shdInit();shdOppInit();plInit();shdPlyInit();shdIcon();texList();
 </script></body></html>
