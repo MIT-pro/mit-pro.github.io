@@ -208,7 +208,7 @@ const BO=new T.Group();BO.position.set(-.42,.98,.42);BO.visible=false;NG.add(BO)
 var ZR={},ZS={ng:{ph:0,f:0,g:0},pm:{ph:0,f:0,g:0}},psw=0;
 function zRig(root,groups){const R={h:[],a:[[],[]],l:[[],[]]};for(const g of[root,...groups]){const mk=(x,y)=>{const p=new T.Group();p.position.set(x,y,0);g.add(p);return p},H=mk(0,1.42),A0=mk(-.36,1.38),A1=mk(.36,1.38),L0=mk(-.13,.7),L1=mk(.13,.7);for(const m of g.children.slice()){if(!m.isMesh||m.userData.gl)continue;const x=m.position.x,y=m.position.y;let p=null;if(y>1.43)p=H;else if(Math.abs(x)>.3&&y>.72&&y<=1.45)p=x<0?A0:A1;else if(y<=.72&&Math.abs(x)>.05)p=x<0?L0:L1;if(p){p.add(m);m.position.sub(p.position)}}R.h.push(H);R.a[0].push(A0);R.a[1].push(A1);R.l[0].push(L0);R.l[1].push(L1)}return R}
 ZR.ng=zRig(NG,[AR,AR2,TB.G1,TB.G2]);ZR.pm=zRig(PMD,[PAR,PAR2,TP.G1,TP.G2]);
-{const rp=ZR.ng.a[1][0],lp=ZR.ng.a[0][0];rp.add(BI);BI.position.set(0,-.62,.1);lp.add(BO);BO.position.set(-.06,-.4,.42)}
+{const rp=ZR.ng.a[1][0],lp=ZR.ng.a[0][0];rp.add(BI);BI.position.set(0,-.62,.1);lp.add(BO);BO.position.set(0,-.62,.1)}
 NG.rotation.order='YXZ';PMD.rotation.order='YXZ';
 const zwr=a=>{a%=6.2832;return a>3.1416?a-6.2832:a<-3.1416?a+6.2832:a};
 function zAnim(R,S,o,dt,root){const k=Math.min(2,dt/50),t=o.t;if(S.by===undefined)S.by=o.ly;const d=zwr(o.ly-S.by);
@@ -231,7 +231,7 @@ function zFrame(dt,t){psw=Math.max(0,psw-dt/180);
  if(PMD.visible)PBI=zAnim(ZR.pm,ZS.pm,{hs:Math.hypot(P.v[0],P.v[2]),og:P.og,ly:yaw+Math.PI,pt:pit,ea:eatHand!=null,gl:!!P.gl,sw:psw,spear:lastK=='spear',ch:chT,t},dt,PMD);
  {const q=lastK=='spear'&&chHand!='off'&&chT>0&&chT<=175?zLerp(ZF,chT):[0,0,0,0,0,0,0,0],bq=ZS.bq||[-1,-32,-8],tg=[q[0]+q[6]*(-.25*innerWidth+zhs()),q[1]+q[6]*(-.4*innerHeight+zhs()),q[2]*zhs()/100,q[3],q[4],q[5]+q[6]*(-103-bq[2])];const c=ZS.fp||(ZS.fp=[0,0,0,0,0,0]),kk=Math.min(1,dt/70);for(let i=0;i<6;i++)c[i]+=(tg[i]-c[i])*kk;const s=c.map(v=>v.toFixed(1)).join();if(s!==ZS.fs){ZS.fs=s;const h=$('hold').style;h.setProperty('--cx',c[0]+'px');h.setProperty('--cy',c[1]+'px');h.setProperty('--cz',c[2]+'px');h.setProperty('--crx',c[3]+'deg');h.setProperty('--cry',c[4]+'deg');h.setProperty('--crz',c[5]+'deg')}}}
 var bok=null;
-function botOff(){const k=online?(N.ok&&N.ok!='shield'?N.ok:null):(TO.b.n>0?'totem':null),on=!!fight&&(!online||!!mpOpp)&&!!k&&BT.rt<=0;if(BO.visible!==on)BO.visible=on;if(birev2===imgRev&&bok===k)return;birev2=imgRev;bok=k;while(BO.children.length)BO.remove(BO.children[0]);if(!k)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide});for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(.7,.7),m);q.position.z=z*.02;BO.add(q)}}
+function botOff(){const k=online?(N.ok&&N.ok!='shield'?N.ok:null):(TO.b.n>0?'totem':null),on=!!fight&&(!online||!!mpOpp)&&!!k&&BT.rt<=0;if(BO.visible!==on)BO.visible=on;if(birev2===imgRev&&bok===k)return;birev2=imgRev;bok=k;while(BO.children.length)BO.remove(BO.children[0]);if(!k)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide});for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(.7,.7),m);q.position.set(BWP(k)?.3:0,BWP(k)?.3:0,z*.02);BO.add(q);BO.rotation.set(0,-1.35,BWP(k)?-.7:-.25)}}
 function icoTex(id){if(IMG[id]){const t=new T.Texture(IMG[id]);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;return t}
  const c=document.createElement('canvas');c.width=c.height=16;const g=c.getContext('2d');IC[id]((a,b,w,h,col)=>{g.fillStyle=col;g.fillRect(a,b,w,h)});const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return t}
 function botItem(){const k0=fight?(BF.eat>0?(gm=='axe'?'gapple':'gcarrot'):BT.k!='hand'&&BT.k!='shield'?BT.k:null):null,k=gm=='axe'&&(k0=='sword'||k0=='axe')?'d'+k0:k0;if(k===bik&&birev===imgRev)return;bik=k;birev=imgRev;while(BI.children.length)BI.remove(BI.children[0]);BI.visible=!!k;if(!k)return;
@@ -1425,7 +1425,7 @@ function plInit(){PIG=new T.Group();PIG.position.set(0,-.62,.1);ZR.pm.a[1][0].ad
 function plBuild(G,k,sz){while(G.children.length)G.remove(G.children[0]);if(!k||k=='shield'||ID[k]===undefined)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide}),w=BWP(k);for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(sz,sz),m);q.position.set(w?.3:0,w?.3:0,z*.02);G.add(q)}}
 function plFrame(dt){if(!PIG||!view3)return;const k1=hk()||null,k2=offK()||null;
  if(k1!==PIK||k2!==POK||PIR!==imgRev){PIK=k1;POK=k2;PIR=imgRev;plBuild(PIG,k1,.85);plBuild(PIO,k2,.7)}
- const w=BWP(k1);PIG.rotation.set(PBI[0],PBI[1]-(w?1:0),PBI[2]-(w?.45:0))}
+ const w=BWP(k1);PIG.rotation.set(PBI[0],PBI[1]-(w?1:0),PBI[2]-(w?.45:0));PIO.rotation.set(0,-1.35,BWP(k2)?-.7:-.25)}
 function shdPlyInit(){SPL={k:[0,0],g:[]};[ZR.pm.a[1][0],ZR.pm.a[0][0]].forEach(p=>{const g=shdMesh();g.scale.setScalar(.052);g.visible=false;p.add(g);SPL.g.push(g)})}
 function shdPly(dt){if(!SPL)return;
  for(let i=0;i<2;i++){const g=SPL.g[i],s=i?-1:1,has=!!view3&&(i?offK():hk())=='shield',up=has&&shdHand==(i?'off':'main')&&tk>=shdCD;g.visible=has;SPL.k[i]+=((up?1:0)-SPL.k[i])*Math.min(1,dt/80);if(!has)continue;const k=SPL.k[i];
