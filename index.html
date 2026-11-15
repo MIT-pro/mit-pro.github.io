@@ -125,7 +125,7 @@ details{margin:8px 0;color:var(--mut)}summary{cursor:pointer;color:var(--fg)}
 <p>Third person view <button id="povb" class="kb" style="width:auto;padding:3px 14px"></button> also on the Third person key bind.</p></div>
 <p><button id="ctlx" style="font:inherit;padding:6px 18px;cursor:pointer;background:#2e7d32;color:#fff;border:0;border-radius:6px">Done</button></p>
 </div></div>
-<div id="tt"></div><div id="trm"><div><div><canvas id="tvc" width="192" height="260"></canvas></div><div style="flex:1;min-width:280px;max-width:420px"><h1 style="margin:0 0 6px;font-size:22px">Armour trims</h1><h3>Piece</h3><div class="mrow" id="trps"></div><h3>Pattern</h3><select id="trpat" style="font:inherit;padding:5px;width:100%;background:#10151c;color:#eef2f6;border:1px solid #3b4654;border-radius:6px"></select><h3>Material</h3><div class="mrow" id="trmts"></div><div class="mrow"><button id="tall">Copy to all pieces</button><button id="tclr">Clear all</button><button id="tdone" class="on">Done</button></div><p id="trh" style="font-size:12px;color:var(--mut)"></p></div></div></div>
+<div id="tt"></div><div id="trm"><div><div><canvas id="tvc" width="192" height="260"></canvas></div><div style="flex:1;min-width:280px;max-width:420px"><h1 style="margin:0 0 6px;font-size:22px">Armour trims</h1><h3>Piece</h3><div class="mrow" id="trps"></div><h3>Pattern</h3><div class="mrow" id="trpg" style="max-height:240px;overflow:auto"></div><h3>Material</h3><div class="mrow" id="trmts"></div><div class="mrow"><button id="tall">Copy to all pieces</button><button id="tclr">Clear all</button><button id="tdone" class="on">Done</button></div><p id="trh" style="font-size:12px;color:var(--mut)"></p></div></div></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
@@ -186,7 +186,7 @@ for(let y=0;y<64;y++)for(let x=0;x<64;x++){const gx=x/8,gy=y/8,x0=Math.floor(gx)
 const GLD=GLC.getContext('2d').getImageData(0,0,64,64).data;
 document.documentElement.style.setProperty('--gl','url('+GLC.toDataURL()+')');
 const GLT3=new T.CanvasTexture(GLC);GLT3.wrapS=GLT3.wrapT=T.RepeatWrapping;GLT3.repeat.set(3,3);
-const GLM=new T.MeshBasicMaterial({map:GLT3,color:0xc8a8ff,transparent:true,opacity:.35,blending:T.AdditiveBlending,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),GLU={t:{value:0}};
+const GLM=new T.MeshBasicMaterial({map:GLT3,color:0xc8a8ff,transparent:true,opacity:.14,blending:T.AdditiveBlending,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2}),GLU={t:{value:0}};
 function zGlintAll(g){const L=[];g.traverse(o=>{if(o.isMesh&&!o.userData.gl)L.push(o)});L.forEach(m=>{const c=new T.Mesh(m.geometry,GLM);c.userData.gl=1;c.renderOrder=2;m.add(c)})}
 [AR,AR2,PAR,PAR2,TB.G1,TB.G2,TP.G1,TP.G2].forEach(zGlintAll);
 function zGlintMat(tex){return new T.ShaderMaterial({transparent:true,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide,uniforms:{m:{value:tex},g:{value:GLT3},t:GLU.t},vertexShader:'varying vec2 v;void main(){v=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}',fragmentShader:'uniform sampler2D m,g;uniform float t;varying vec2 v;void main(){if(texture2D(m,v).a<.1)discard;vec4 c=texture2D(g,v*1.5+vec2(t*.07,t*.04)),d=texture2D(g,v*3.-vec2(t*.05,-t*.06));gl_FragColor=vec4((c.rgb+d.rgb)*.3,1.);}'})}
@@ -239,7 +239,7 @@ function botOff(){const k=online?(N.ok&&N.ok!='shield'?N.ok:null):(TO.b.n>0?'tot
 function icoTex(id){if(IMG[id]){const t=new T.Texture(IMG[id]);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;return t}
  const c=document.createElement('canvas');c.width=c.height=16;const g=c.getContext('2d');IC[id]((a,b,w,h,col)=>{g.fillStyle=col;g.fillRect(a,b,w,h)});const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return t}
 function botItem(){const k0=fight?(BF.eat>0?(gm=='axe'||gm=='sword'?'gapple':gm=='neth'?'steak':'gcarrot'):BT.k!='hand'&&BT.k!='shield'?BT.k:null):null,k=(gm=='axe'||gm=='sword')&&(k0=='sword'||k0=='axe')?'d'+k0:k0;if(k===bik&&birev===imgRev)return;bik=k;birev=imgRev;while(BI.children.length)BI.remove(BI.children[0]);BI.visible=!!k;if(!k)return;
- const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide});for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(.85,.85),m);q.position.set(BWP(k)?.3:0,BWP(k)?.3:0,z*.02);BI.add(q)}}
+ const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide});for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(.85,.85),m);q.position.set(BWP(k)?.3:0,BWP(k)?.3:0,z*.02);BI.add(q)}if(GLID.has(ID[k])){const gm=zGlintMat(m.map);for(const z of[-3,3]){const q=new T.Mesh(new T.PlaneGeometry(.85,.85),gm);q.position.set(BWP(k)?.3:0,BWP(k)?.3:0,z*.02);BI.add(q)}}}
 const PN=96,PP=new Float32Array(PN*3),PG=new T.BufferGeometry(),PL=[];PG.setAttribute('position',new T.BufferAttribute(PP,3));PG.setDrawRange(0,0);
 const pc=document.createElement('canvas');pc.width=pc.height=8;{const g=pc.getContext('2d');g.fillStyle='#3a2f1a';g.fillRect(3,0,2,8);g.fillRect(0,3,8,2);g.fillStyle='#f3e3b0';g.fillRect(3,1,2,6);g.fillRect(1,3,6,2)}
 const PT=new T.CanvasTexture(pc);PT.magFilter=PT.minFilter=T.NearestFilter;
@@ -289,7 +289,7 @@ cam.fov=fov;cam.updateProjectionMatrix();
 const DL={spear:23,mace:33.3,wind:5,sword:12.5,axe:20,dsword:12.5,daxe:20},D=k=>DL[k]||5,res=x=>x=='chest'?(chest=='elytra'?'plate':'elytra'):x?String(x).split('#')[0]:null,itemKey=i=>res(HB[i]),offK=()=>res(OH),hk=()=>itemKey(sel),iid=i=>{const k=itemKey(i);return k?ID[k]:-1};
 let ticker=40,lastK=itemKey(0),delay=D(itemKey(0));
 let eatHand=null,eatT=0;const BF={f:20,s:20,eat:0,hs:0,far:0};
-function bLunge(){if(gm!='mace'||online||BT.lc===tk)return 1;if(BF.f<7)return 0;BT.lc=tk;const c=Math.min(BF.s,3);BF.s-=c;BF.f-=3-c;return 1}
+function bLunge(){if(gm!='mace'||online||BT.lc===tk)return 1;if(BF.eat>0)return 0;if(BF.f<7)return 0;BT.lc=tk;const c=Math.min(BF.s,3);BF.s-=c;BF.f-=3-c;return 1}
 const fallMul=()=>gm=='mace'?.2:gm=='sword'?.68:gm=='axe'?.36:.52; // Feather Falling IV (+ Protection IV in the mace duel, capped at 80%)
 const LDEF={neth:()=>({HB:['sword','hpot','hpot','hpot','hpot','hpot','stpot','spot','stpot'],OH:'totem',MI:Array.from({length:27},(_,j)=>{const c=j%9+1;return j==0?'totem':j==1?'steak':j==2?'xp':j==3?'xq':c==8?'spot':c==7||c==9?'stpot':'hpot'})}),sword:()=>({HB:['dsword','gapple',null,null,null,null,null,null,null],OH:'totem',MI:[]}),mace:()=>({HB:['mace','wind','sword','axe','spear','pearl','totem','totem','gcarrot'],OH:'totem',MI:[]}),axe:()=>({HB:['dsword','daxe','gapple',null,null,null,null,null,null],OH:'shield',MI:[]})};
 let LO={sword:null,mace:null},HM={HB:null,OH:null};
@@ -662,7 +662,7 @@ function simAmb(D0,n,ty){let y=0,vy=0,h=0,pos=0,used=0,lastL=-99,expT=-1;
   if(i==0){vy=.42;h+=.33}else h+=.026;
   if(i==3)expT=3+Math.max(1,Math.ceil((y+1.62)/1.5));
   if(i==expT){const d=y+.2;if(d<3.5){const k=V7*Math.min(1,(3.5-d)/1.3)*.83;vy+=k*(y+.9)/Math.hypot(y+.9,.12)}}
-  if(i>=13&&used<n&&i-lastL>=5&&pos<D0-2.2&&h<1.374){h=1.374;used++;lastL=i}
+  if(i>=13&&used<n&&i-lastL>=10&&pos<D0-2.2&&h<1.374){h=1.374;used++;lastL=i}
   pos+=h;y+=vy;
   if(y<=0&&vy<0&&i>3)return 999;
   vy=(vy-.08)*.98;h*=.91;
@@ -673,7 +673,7 @@ function simPC(D0,n,ty){const y=pearlUp(),apex=pearlApex(),hc=y[apex]-.5;let tm=
  let yy=1.62+y[tm],vy=V7,h=0,pos=0,used=0,lastL=-99;
  for(let i=tm;i<tm+140;i++){
   if(i>tm)h+=.026;
-  if(i>=tc+10&&used<n&&i-lastL>=5&&pos<D0-2.2&&h<1.374){h=1.374;used++;lastL=i}
+  if(i>=tc+10&&used<n&&i-lastL>=10&&pos<D0-2.2&&h<1.374){h=1.374;used++;lastL=i}
   pos+=h;yy+=vy;
   if(yy<=0&&vy<0)return 999;
   vy=(vy-.08)*.98;h*=.91;
@@ -728,11 +728,11 @@ function arAct(C){const{eb,dist,canWC,s,tr,falling,wy}=C;let fwd=0,str=0,spr=0,j
  const rM=tr>=0&&tr<=(BT.last=='spear'?4.5:3);
  if(falling&&N.fall>1.5&&rM){BT.k='mace';swing=1;reach=true;return out()}
  const ang=Math.abs(Math.atan2(Math.sin(wy-BT.yaw),Math.cos(wy-BT.yaw)));let want=false;
- if(AM.nl>0&&BT.pend<=0&&tk>=BT.wc&&BT.last=='wind'&&s>=1&&lungesOK(1)&&ang<.45&&Dx>2.6&&(inAmb||N.p[1]-gh(N.p)>(N.v[1]<-1.5?9:3.5))){   // no lunges in the last few ticks of a long dive: the sideways kick would throw off the landing charge
+ if(AM.nl>0&&BT.pend<=0&&tk>=BT.wc&&BT.last=='wind'&&s>=1&&lungesOK(1)&&BF.eat<=0&&tk-(BT.ll||-99)>=10&&ang<.45&&Dx>2.6&&(inAmb||N.p[1]-gh(N.p)>(N.v[1]<-1.5?9:3.5))){   // no lunges in the last few ticks of a long dive: the sideways kick would throw off the landing charge
   if(inAmb)want=true;
   else{const vh=Math.max(0,(N.v[0]*(tgt[0]-N.p[0])+N.v[2]*(tgt[2]-N.p[2]))/(Dx||1));let T=0,y2=N.p[1]-tgt[1],vv=N.v[1];while(y2>1.8&&T<90){y2+=vv;vv=(vv-.08)*.98;T++}
    want=vh*(1-Math.pow(.91,T))/.09<Dx-1.2}}
- if(want){BT.k='spear';BT.lunge=1;BT.fl=1;AM.nl--;AM.lunges++}else BT.k='wind';
+ if(want){BT.k='spear';BT.lunge=1;BT.fl=1;BT.ll=tk;AM.nl--;AM.lunges++}else BT.k='wind';
  return out()}
 // wind charge down just before touching the ground so the burst cancels the fall damage; timed from the exact fall, so even a very fast fall is caught
 function landSave(C){if(N.og||N.v[1]>-.15||tk<BT.wc||AM.m==1||AM.m==2||AM.m==5)return;
@@ -895,8 +895,8 @@ function botAI(){
    const dv=pDive&&D.dodge&&dist<16?aimDive(eb):null;
    if(dv&&dv.ld<12&&!(tk-BT.hurt<=40&&canWC&&BT.lt<=0)){BT.fl2=1;BT.away=1;fwd=fl?1:0;str=0;spr=1;jump=fl?1:0}
    
-   else if(tk-BT.hurt<=40&&canWC&&BT.lt<=0){BT.pm=0;jump=1;spr=0;fwd=0;BT.pend=3;BT.lt=40;BT.far=0;BT.k='wind';BT.ph=1;BT.away=1;BT.car='spear'}
-   else if(D.gm&&canWC&&BT.lt<=0&&tk>=BT.pcd&&pearlOK()&&!pDive&&dist>8&&dist<26&&Math.random()<.1){jump=1;spr=0;fwd=0;BT.pend=3;BT.lt=40;BT.far=0;BT.k='wind';BT.ph=1;BT.car='spear';BT.pm=1+(Math.random()<.5?1:0)}
+   else if(tk-BT.hurt<=40&&canWC&&BT.lt<=0&&BF.eat<=0&&lungesOK(1)){BT.pm=0;jump=1;spr=0;fwd=0;BT.pend=3;BT.lt=40;BT.far=0;BT.k='wind';BT.ph=1;BT.away=1;BT.car='spear'}
+   else if(false){jump=1;spr=0;fwd=0;BT.pend=3;BT.lt=40;BT.far=0;BT.k='wind';BT.ph=1;BT.car='spear';BT.pm=1+(Math.random()<.5?1:0)}
    else if(go&&Math.random()<D.launch){jump=1;spr=0;fwd=0;BT.pend=3;BT.lt=40;BT.far=0;BT.k='wind';BT.ph=1;BT.car='spear'}
    else if(dist<5.5&&BT.far<40){BT.far++;if(!edge){fwd=-1;spr=1}}
    else if(dist>7.5){fwd=1;spr=1}
@@ -919,7 +919,7 @@ function botAI(){
    const rM=tr>=0&&tr<=(BT.last=='spear'?4.5:3);
    if(falling&&N.fall>1.5&&rM&&BT.dash!=1){BT.k='mace';swing=1;reach=true;BT.away=0}
    else if(falling&&!BT.away&&!BT.post&&!BT.rl&&(BT.ph!=1||BT.dash>=2))BT.k='spear';
-   if(BT.pm&&!pearlOK())BT.pm=0;if(BT.pm&&tk>=BT.pcd&&hgt>3.5&&N.v[1]<.25&&dist>6&&dist<32){const sv=solvePearl(eb,[P.p[0],P.p[1]+1,P.p[2]],P.v,N.v,BT.pm==2);if(sv){throwPearl('b',eb,sv);BT.pm=0}}
+   if(D.gm&&falling&&tk>=BT.pcd&&pearlOK()&&hgt>2&&N.p[1]<P.p[1]-1&&dist>5&&dist<32&&!(tr>=0&&tr<=4.5)){const sv=solvePearl(eb,[P.p[0],P.p[1]+1,P.p[2]],P.v,N.v,false);if(sv)throwPearl('b',eb,sv)}
    
   }
  }else{
@@ -1268,7 +1268,7 @@ function autoTex(){if(location.protocol=='file:'){$('tpf').textContent='Opened f
  const go=(url,nm)=>{if(TX[nm])return;fetch(url).then(r=>r.ok?r.blob():null).then(b=>{if(!b||TX[nm])return;const fr=new FileReader();fr.onload=()=>useImg(nm,fr.result);fr.readAsDataURL(b)}).catch(()=>{})};
  for(const[d,ns]of[['item',['netherite_spear','mace','wind_charge','firework_rocket','elytra','netherite_chestplate','netherite_sword','netherite_axe','ender_pearl','totem_of_undying','golden_carrot','cooked_beef','diamond_sword','diamond_axe','golden_apple','diamond_helmet','diamond_chestplate','diamond_leggings','diamond_boots','netherite_helmet','netherite_leggings','netherite_boots','splash_potion','potion_overlay','experience_bottle','iron_ingot','diamond','quartz','netherite_ingot','redstone','copper_ingot','gold_ingot','emerald','lapis_lazuli','amethyst_shard','resin_brick']],['block',['grass_block_top','grass_block_side','grass_block_side_overlay','dirt','stone','cobblestone']]])ns.forEach(n=>go('textures/'+d+'/'+n+'.png',n));
 ['critical_hit','enchanted_hit','damage',...spNames()].forEach(n=>go('textures/particle/'+n+'.png','p_'+n));
- TRP.forEach(p=>{go('textures/trims/entity/humanoid/'+p+'.png','tr_h_'+p);go('textures/trims/entity/humanoid_leggings/'+p+'.png','tr_l_'+p)});['helmet','chestplate','leggings','boots'].forEach(p=>go('textures/trims/items/'+p+'_trim.png','tr_t_'+p+'_trim'));[...Object.keys(TRC),'trim_palette','iron_darker','gold_darker','diamond_darker','netherite_darker','copper_darker'].forEach(m=>go('textures/trims/color_palettes/'+m+'.png','tr_p_'+m));go('textures/entity/equipment/humanoid/netherite.png','armor_1');go('textures/entity/equipment/humanoid_leggings/netherite.png','armor_2');go('textures/entity/shield/shield_base_nopattern.png','shield_base');go('textures/entity/shield_base_nopattern.png','shield_base');go('textures/entity/equipment/humanoid/diamond.png','darmor_1');go('textures/entity/equipment/humanoid_leggings/diamond.png','darmor_2');$('tpf').textContent='Looking for a textures folder next to this page (textures/item, textures/block, textures/particle, textures/entity/equipment).'}
+ TRP.forEach(p=>{go('textures/trims/entity/humanoid/'+p+'.png','tr_h_'+p);go('textures/trims/entity/humanoid_leggings/'+p+'.png','tr_l_'+p)});TRP.forEach(p=>go('textures/item/'+p+'_armor_trim_smithing_template.png',p+'_armor_trim_smithing_template'));['helmet','chestplate','leggings','boots'].forEach(p=>go('textures/trims/items/'+p+'_trim.png','tr_t_'+p+'_trim'));[...Object.keys(TRC),'trim_palette','iron_darker','gold_darker','diamond_darker','netherite_darker','copper_darker'].forEach(m=>go('textures/trims/color_palettes/'+m+'.png','tr_p_'+m));go('textures/entity/equipment/humanoid/netherite.png','armor_1');go('textures/entity/equipment/humanoid_leggings/netherite.png','armor_2');go('textures/entity/shield/shield_base_nopattern.png','shield_base');go('textures/entity/shield_base_nopattern.png','shield_base');go('textures/entity/equipment/humanoid/diamond.png','darmor_1');go('textures/entity/equipment/humanoid_leggings/diamond.png','darmor_2');$('tpf').textContent='Looking for a textures folder next to this page (textures/item, textures/block, textures/particle, textures/entity/equipment).'}
 setTimeout(autoTex,600);
 // Minecraft-style cursor: click a slot to pick the item up, click another slot to place or swap, right-click places into an empty slot
 let cur=null;
@@ -1282,7 +1282,7 @@ function slotClick(t,right,e){const d=t.dataset;
 function curBack(){if(!cur)return;const k=cur.k,f=cur.from;let d=f;if(d===null||d==='arm'||lget(LV,d))d=fh()!==null?fh():fmi();if(f==='arm'&&d===null)zWear(k);else if(f!==null&&d!==null)cop(d)(A=>lset(A,d,k));setCur(null);resync()}
 $('inv').addEventListener('contextmenu',e=>{const t=zslot(e);if(t&&t.dataset.ar===undefined){e.preventDefault();slotClick(t,1,e)}});
 document.addEventListener('mousemove',e=>{if(cur){const i=$('cur');i.style.left=e.clientX+'px';i.style.top=e.clientY+'px'}});
-const TWL=/^(experience_bottle|golden_apple|diamond_(sword|axe|helmet|chestplate|leggings|boots)|netherite_(spear|chestplate|sword|axe|helmet|leggings|boots)|mace|wind_charge|firework_rocket|elytra|ender_pearl|totem_of_undying|golden_carrot|cooked_beef|splash_potion|potion_overlay|grass_block_top|grass_block_side|grass_block_side_overlay|dirt|stone|cobblestone|iron_ingot|diamond|quartz|netherite_ingot|redstone|copper_ingot|gold_ingot|emerald|lapis_lazuli|amethyst_shard|resin_brick)$/;
+const TWL=/^(experience_bottle|golden_apple|diamond_(sword|axe|helmet|chestplate|leggings|boots)|netherite_(spear|chestplate|sword|axe|helmet|leggings|boots)|mace|wind_charge|firework_rocket|elytra|ender_pearl|totem_of_undying|golden_carrot|cooked_beef|splash_potion|potion_overlay|grass_block_top|grass_block_side|grass_block_side_overlay|dirt|stone|cobblestone|iron_ingot|diamond|quartz|netherite_ingot|redstone|copper_ingot|gold_ingot|emerald|lapis_lazuli|amethyst_shard|resin_brick|[a-z]+_armor_trim_smithing_template)$/;
 const PTT={b:null,o:null},PCOLS={14:[51,235,255],15:[255,199,0],16:[248,36,35]};
 function buildPot(){if(!PTT.b||!PTT.o)return;for(const id in PCOLS){const w=PTT.b.width,c=document.createElement('canvas');c.width=c.height=w;const g=c.getContext('2d');g.drawImage(PTT.b,0,0,w,w);const o=document.createElement('canvas');o.width=o.height=w;const q=o.getContext('2d');q.drawImage(PTT.o,0,0,w,w);q.globalCompositeOperation='multiply';q.fillStyle='rgb('+PCOLS[id].join(',')+')';q.fillRect(0,0,w,w);q.globalCompositeOperation='destination-in';q.drawImage(PTT.o,0,0,w,w);g.drawImage(o,0,0);const im=new Image();im.onload=()=>{IMG[id]=im;imgRev++};im.src=c.toDataURL()}}
 let hov=null;
@@ -1418,7 +1418,7 @@ function buildSide(){if(!SD.b)return;const w=SD.b.width,c=document.createElement
 function useImg(n,src){const im=new Image();im.onload=()=>{LD.add(n);texList();const mt=TM[n];
  if(mt){const t=new T.Texture(im);t.magFilter=T.NearestFilter;t.minFilter=T.NearestMipmapLinearFilter;t.needsUpdate=true;mt.map=t;mt.needsUpdate=true;if(n=='grass_block_top'){t.wrapS=t.wrapT=T.RepeatWrapping;t.needsUpdate=true;mt.color.setHex(0x91bd59)}}
  else if(n=='shield_base'){shdTex(im)}else if(/^d?armor_[12]$/.test(n)){const t=new T.Texture(im);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;(n[0]=='d'?DAT:NAT)[n.slice(-1)]=t;zArmSet()}else if(n=='splash_potion'){PTT.b=im;buildPot()}else if(n=='potion_overlay'){PTT.o=im;buildPot()}else if(n=='grass_block_side'){SD.b=im;buildSide()}else if(n=='grass_block_side_overlay'){SD.o=im;buildSide()}
- else if(MITR[n]){TRI['i_'+MITR[n]]=im}else if(n.indexOf('tr_')==0){TRI[n.slice(3)]=im;TRI.rev++;trimApply()}else if(n.indexOf('p_')==0)zPT(n.slice(2),im);else if(n in SK){IMG[SK[n]]=im;if(ZA[SK[n]])IMN[SK[n]]=im;zArmSet();imgRev++}};im.src=src}
+ else if(MITR[n]){TRI['i_'+MITR[n]]=im}else if(/_armor_trim_smithing_template$/.test(n)){TRI['s_'+n.replace('_armor_trim_smithing_template','')]=im}else if(n.indexOf('tr_')==0){TRI[n.slice(3)]=im;TRI.rev++;trimApply()}else if(n.indexOf('p_')==0)zPT(n.slice(2),im);else if(n in SK){IMG[SK[n]]=im;if(ZA[SK[n]])IMN[SK[n]]=im;zArmSet();imgRev++}};im.src=src}
 function saveTx(n,src){TX[n]=src;try{localStorage.setItem('sdtx',JSON.stringify(TX))}catch(_){}}
 setTimeout(()=>{for(const n in TX)useImg(n,TX[n])},300);
 $('tp').onclick=e=>e.stopPropagation();
@@ -1534,7 +1534,7 @@ function shdOpp(dt){if(!SOP)return;const bot=!!fight&&!online&&gm=='axe',on=(!!o
 // third person: your own model now carries what you hold (weapon pointing forward, offhand item, shield at the side / raised while blocking)
 var PBI=[0,-.35,-.25],PIG,PIO,PIK,POK,PIR=-1,SPL=null;
 function plInit(){PIG=new T.Group();PIG.position.set(0,-.62,.1);ZR.pm.a[1][0].add(PIG);PIO=new T.Group();PIO.position.set(0,-.62,.1);ZR.pm.a[0][0].add(PIO)}
-function plBuild(G,k,sz){while(G.children.length)G.remove(G.children[0]);if(!k||k=='shield'||ID[k]===undefined)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide}),w=BWP(k);for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(sz,sz),m);q.position.set(w?.3:0,w?.3:0,z*.02);G.add(q)}}
+function plBuild(G,k,sz){while(G.children.length)G.remove(G.children[0]);if(!k||k=='shield'||ID[k]===undefined)return;const m=new T.MeshBasicMaterial({map:icoTex(ID[k]),transparent:true,alphaTest:.1,side:T.DoubleSide}),w=BWP(k);for(let z=-2;z<=2;z++){const q=new T.Mesh(new T.PlaneGeometry(sz,sz),m);q.position.set(w?.3:0,w?.3:0,z*.02);G.add(q)}if(GLID.has(ID[k])){const gm=zGlintMat(m.map);for(const z of[-3,3]){const q=new T.Mesh(new T.PlaneGeometry(sz,sz),gm);q.position.set(w?.3:0,w?.3:0,z*.02);G.add(q)}}}
 function plFrame(dt){if(!PIG||!view3)return;const k1=hk()||null,k2=offK()||null;
  if(k1!==PIK||k2!==POK||PIR!==imgRev){PIK=k1;POK=k2;PIR=imgRev;plBuild(PIG,k1,.85);plBuild(PIO,k2,.7)}
  const w=BWP(k1);PIG.rotation.set(PBI[0],PBI[1]-(w?1:0),PBI[2]-(w?.45:0));PIO.rotation.set(0,-1.35,BWP(k2)?-.7:-.25)}
@@ -1595,7 +1595,7 @@ function trTex(s,pm){if(!pm)return null;const lay=s=='l'?'l':'h',im=TRI[lay+'_'+
  const c=trCv(im),g=c.getContext('2d'),id=g.getImageData(0,0,im.width,im.height),d=id.data;
  for(let i=0;i<d.length;i+=4){if(d[i+3]<8)continue;let b=0,bd=1e9;key.forEach((q,j)=>{const e=(q[0]-d[i])**2+(q[1]-d[i+1])**2+(q[2]-d[i+2])**2;if(e<bd){bd=e;b=j}});const q=pal[Math.min(b,pal.length-1)];d[i]=q[0];d[i+1]=q[1];d[i+2]=q[2]}
  g.putImageData(id,0,0);const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return TRT[kk]=t}
-function trimApply(){trIcons();for(const[t,o]of[[TP,TRM.p],[TB,TRM.b]])for(const k in t.P)t.P[k].forEach(m=>{if(m.userData.tr){m.material.map=trTex(k,o[k]);m.material.needsUpdate=true}});if(invOpen)renderInv();if(trmOpen)pmR('tvc')}
+function trimApply(){trIcons();for(const[t,o]of[[TP,TRM.p],[TB,TRM.b]])for(const k in t.P)t.P[k].forEach(m=>{if(m.userData.tr){m.material.map=trTex(k,o[k]);m.material.needsUpdate=true}});if(invOpen)renderInv();if(trmOpen){trmUI();pmR('tvc')}}
 const MITR={iron_ingot:'iron',diamond:'diamond',quartz:'quartz',netherite_ingot:'netherite',redstone:'redstone',copper_ingot:'copper',gold_ingot:'gold',emerald:'emerald',lapis_lazuli:'lapis',amethyst_shard:'amethyst',resin_brick:'resin'},TRB={},TRO={};
 function trPalFor(m){return trPal(m+((m=='diamond'&&DIA())||(m=='netherite'&&!DIA())?'_darker':''))||trPal(m)}
 // trimmed armour icons: the game's trims/items overlay, recoloured, drawn over the plain icon
@@ -1606,17 +1606,27 @@ function trIcons(){const key=trPal('trim_palette')||Array.from({length:8},(_,i)=
   const c=trCv(ov),g=c.getContext('2d'),d0=g.getImageData(0,0,ov.width,ov.height),d=d0.data;
   for(let i=0;i<d.length;i+=4){if(d[i+3]<8)continue;let q=0,bd=1e9;key.forEach((k,j)=>{const e=(k[0]-d[i])**2+(k[1]-d[i+1])**2+(k[2]-d[i+2])**2;if(e<bd){bd=e;q=j}});const p=pal[Math.min(q,pal.length-1)];d[i]=p[0];d[i+1]=p[1];d[i+2]=p[2]}
   g.putImageData(d0,0,0);const o=document.createElement('canvas');o.width=o.height=16;const h=o.getContext('2d');h.imageSmoothingEnabled=false;h.drawImage(b,0,0,16,16);h.drawImage(c,0,0,16,16);o.src=o.toDataURL();IMG[id]=o;TRO[id]=o;imgRev++}}
+const Z16='................',pd16=(t,a)=>[...Array(t).fill(Z16),...a,...Array(16-t-a.length).fill(Z16)],
+MSH={ing:pd16(5,['....oooooooooo..','...ohhhhhhhbbbo.','..ohhhhhhbbbbbo.','..obbbbbbbbbbdo.','..oddddddddddoo.','..oooooooooooo..']),
+gem:pd16(2,['.....oooooo.....','...ooohhbbooo...','..ohhhhhbbbbdo..','..ohhbbbbbbbdo..','..obbbbbbbbbdo..','...obbbbbbbdo...','....obbbbddo....','.....obbddo.....','......oddo......','.......oo.......']),
+shd:pd16(1,['.........oo.....','........ohbo....','.......ohhbdo...','......ohhbbdo...','.....ohhbbbdo...','....ohhbbbbdo...','...ohhbbbbbdo...','...ohbbbbbddo...','...obbbbbbddo...','...obbbbbddo....','....obbbddo.....','.....obddo......','......ooo.......']),
+dst:pd16(4,['......oooo......','....ooddbboo....','...oddhhbbbdo...','..ohhbbbbbbbdo..','..obbbbbbbbbdo..','..oobbbbbbbddo..','...ooooooooooo..'])},
+MSK={iron:'ing',gold:'ing',copper:'ing',netherite:'ing',resin:'ing',diamond:'gem',emerald:'gem',lapis:'gem',quartz:'shd',amethyst:'shd',redstone:'dst'},TRMG={};
+// material item icon: your texture if loaded, otherwise a built-in pixel icon in the material colour
+function trMat(m){const im=TRI['i_'+m];if(im)return im.src;if(TRMG[m])return TRMG[m];const c=document.createElement('canvas');c.width=c.height=16;const g=c.getContext('2d'),k=TRC[m],P={o:shade(k,-.6),h:shade(k,.45),b:k,d:shade(k,-.3)};MSH[MSK[m]].forEach((r,y)=>{for(let x=0;x<16;x++)if(P[r[x]]){g.fillStyle=P[r[x]];g.fillRect(x,y,1,1)}});return TRMG[m]=c.toDataURL()}
+// pattern tile: the front of the chest area of the recoloured trim texture
+function trTile(tx){const c=document.createElement('canvas');c.width=8;c.height=12;c.getContext('2d').drawImage(tx.image,20,20,8,12,0,0,8,12);return c.toDataURL()}
 var trmOpen=0,trSel='c';
 function trmUI(){const c=TRM.p[trSel]||['',''];$('trps').innerHTML=TRS.map(s=>`<button data-ts="${s}"${s==trSel?' class="on"':''}>${TRN[s]}${TRM.p[s]?' ✓':''}</button>`).join('');
- $('trpat').innerHTML='<option value="">No trim</option>'+TRP.map(p=>`<option value="${p}"${p==c[0]?' selected':''}>${cap(p)}</option>`).join('');
- $('trmts').innerHTML=Object.keys(TRC).map(m=>`<button data-tm="${m}" title="${cap(m)}" style="width:44px;height:44px;padding:0;background:${TRI['i_'+m]?'#2b3542':TRC[m]};border:3px solid ${m==c[1]?'#fff':'#000'}">${TRI['i_'+m]?'<img src="'+TRI['i_'+m].src+'" style="width:32px;image-rendering:pixelated;display:block;margin:auto">':''}</button>`).join('');
+ $('trpg').innerHTML='<button data-tp="" title="No trim" style="width:44px;height:64px;padding:0;border:3px solid '+(c[0]?'#000':'#fff')+'">✕</button>'+TRP.map(p=>{const tx=trTex('c',[p,c[1]||'iron']),u=tx?trTile(tx):null;return '<button data-tp="'+p+'" title="'+cap(p)+'" style="width:44px;height:64px;padding:0;background:#1b1b1b;color:#fff;font-size:9px;border:3px solid '+(p==c[0]?'#fff':'#000')+'">'+(TRI['s_'+p]?'<img src="'+TRI['s_'+p].src+'" style="width:34px;image-rendering:pixelated;display:block;margin:auto">':u?'<img src="'+u+'" style="width:32px;height:48px;image-rendering:pixelated;display:block;margin:auto">':'')+'</button>'}).join('');
+ $('trmts').innerHTML=Object.keys(TRC).map(m=>`<button data-tm="${m}" title="${cap(m)}" style="width:44px;height:44px;padding:0;background:#2b3542;border:3px solid ${m==c[1]?'#fff':'#000'}"><img src="${trMat(m)}" style="width:32px;image-rendering:pixelated;display:block;margin:auto"></button>`).join('');
  $('trh').textContent='Trim textures loaded: '+TRP.filter(p=>TRI['h_'+p]).length+'/'+TRP.length+' patterns, '+Object.keys(TRC).filter(m=>TRI['p_'+m]).length+'/'+Object.keys(TRC).length+' palettes. Put them in textures/trims next to this page, or pick the trims folder under Textures on the start menu. Trims draw on top of the textured armour, so load the armour layer files too. Online, your opponent sees your trims and you see theirs.'}
 function trSet(pm){TRM.p[trSel]=pm;try{localStorage.setItem('sdtr',JSON.stringify(TRM.p))}catch(_){}trimApply();trmUI()}
 function openTrm(){trmOpen=1;$('trm').style.display='flex';trmUI();pmR('tvc')}
 function closeTrm(){trmOpen=0;$('trm').style.display='none';if(invOpen)renderInv()}
 $('trm').onclick=e=>{e.stopPropagation();const b=e.target.closest('button');if(!b)return;const d=b.dataset,c=TRM.p[trSel];
- if(d.ts){trSel=d.ts;trmUI()}else if(d.tm)trSet([(c&&c[0])||$('trpat').value||'sentry',d.tm]);else if(b.id=='tall'){if(c)TRS.forEach(k=>TRM.p[k]=c.slice());trSet(c)}else if(b.id=='tclr'){TRS.forEach(k=>TRM.p[k]=null);trSet(null)}else if(b.id=='tdone')closeTrm()};
-$('trpat').onchange=e=>{const v=e.target.value,c=TRM.p[trSel];trSet(v?[v,(c&&c[1])||'gold']:null)};
+ if(d.ts){trSel=d.ts;trmUI()}else if(d.tm)trSet([(c&&c[0])||'sentry',d.tm]);else if(d.tp!==undefined)trSet(d.tp?[d.tp,(c&&c[1])||'gold']:null);else if(b.id=='tall'){if(c)TRS.forEach(k=>TRM.p[k]=c.slice());trSet(c)}else if(b.id=='tclr'){TRS.forEach(k=>TRM.p[k]=null);trSet(null)}else if(b.id=='tdone')closeTrm()};
+
 $('invt').onclick=()=>openTrm();$('trb').onclick=e=>{e.stopPropagation();openTrm()};
 setInterval(()=>{if(trmOpen)pmR('tvc')},60);
 var VRY=-.4,VRX=0;['tvc','pmc'].forEach(i=>{const c=$(i);let dr=0,lx=0,ly=0;c.style.cursor='grab';c.style.touchAction='none';c.onpointerdown=e=>{dr=1;lx=e.clientX;ly=e.clientY;c.setPointerCapture(e.pointerId);c.style.cursor='grabbing';e.preventDefault()};c.onpointermove=e=>{if(!dr)return;VRY-=(e.clientX-lx)*.012;VRX=Math.max(-1.3,Math.min(1.3,VRX+(e.clientY-ly)*.01));lx=e.clientX;ly=e.clientY;pmR(i)};c.onpointerup=c.onpointercancel=()=>{dr=0;c.style.cursor='grab'}});
