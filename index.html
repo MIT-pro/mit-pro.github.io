@@ -1258,7 +1258,7 @@ IC[9]=PX(['................','......yyyy......','.....yYYYYy.....','.....YeYYeY.
 const pearlRows=(()=>{const R=[];for(let y=0;y<16;y++){let s='';for(let x=0;x<16;x++){const dx=x-7.5,dy=y-7.5,d=Math.hypot(dx,dy);s+=d>6.4?'.':d>5.4?'k':((x*3+y*5)%7<2)?'L':(dx+dy<-3&&d<4.6)?'h':'M'}R.push(s)}return R})();
 IC[8]=PX(pearlRows,{k:'#06332a',M:'#0f7f68',L:'#2fbf9f',h:'#7ae6cf'});
 function texName(p){const s=p.split('/');if(s[0]!='assets'||s[1]!='minecraft'||s[2]!='textures')return null;const f=s[s.length-1];if(!f.endsWith('.png'))return null;const b=f.slice(0,-4),d=s.slice(3,-1).join('/');
- if(d.indexOf('trims/')==0){if(/color_palettes$/.test(d))return 'tr_p_'+b;if(/humanoid_leggings$/.test(d))return 'tr_l_'+b;if(/humanoid$/.test(d))return 'tr_h_'+b;if(d=='trims/models/armor')return b.slice(-9)=='_leggings'?'tr_l_'+b.slice(0,-9):'tr_h_'+b;return null}
+ if(d.indexOf('trims/')==0){if(/color_palettes$/.test(d))return 'tr_p_'+b;if(/humanoid_leggings$/.test(d))return 'tr_l_'+b;if(/items$/.test(d))return 'tr_t_'+b;if(/humanoid$/.test(d))return 'tr_h_'+b;if(d=='trims/models/armor')return b.slice(-9)=='_leggings'?'tr_l_'+b.slice(0,-9):'tr_h_'+b;return null}
  if(b=='shield_base_nopattern')return 'shield_base';if(b=='diamond'&&d=='entity/equipment/humanoid')return 'darmor_1';if(b=='diamond'&&d=='entity/equipment/humanoid_leggings')return 'darmor_2';if(d=='models/armor'&&b=='diamond_layer_1')return 'darmor_1';if(d=='models/armor'&&b=='diamond_layer_2')return 'darmor_2';if(b=='netherite'&&d=='entity/equipment/humanoid')return 'armor_1';if(b=='netherite'&&d=='entity/equipment/humanoid_leggings')return 'armor_2';
  if(d=='models/armor'&&b=='netherite_layer_1')return 'armor_1';if(d=='models/armor'&&b=='netherite_layer_2')return 'armor_2';
  if(d=='particle'&&(['critical_hit','enchanted_hit','damage'].includes(b)||SPRE.test(b)))return 'p_'+b;
@@ -1266,9 +1266,9 @@ function texName(p){const s=p.split('/');if(s[0]!='assets'||s[1]!='minecraft'||s
 for(const L of[1,2]){$('al'+L).onclick=e=>e.stopPropagation();$('al'+L).onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{useImg('armor_'+L,r.result);saveTx('armor_'+L,r.result);$('tpf').textContent='Layer '+L+' loaded: '+f.name};r.readAsDataURL(f)}}
 function autoTex(){if(location.protocol=='file:'){$('tpf').textContent='Opened from a file: browsers block reading a textures folder here, so use the pickers once (they are remembered), or run a local server in this folder (python -m http.server) and open http://localhost:8000.';return}
  const go=(url,nm)=>{if(TX[nm])return;fetch(url).then(r=>r.ok?r.blob():null).then(b=>{if(!b||TX[nm])return;const fr=new FileReader();fr.onload=()=>useImg(nm,fr.result);fr.readAsDataURL(b)}).catch(()=>{})};
- for(const[d,ns]of[['item',['netherite_spear','mace','wind_charge','firework_rocket','elytra','netherite_chestplate','netherite_sword','netherite_axe','ender_pearl','totem_of_undying','golden_carrot','cooked_beef','diamond_sword','diamond_axe','golden_apple','diamond_helmet','diamond_chestplate','diamond_leggings','diamond_boots','netherite_helmet','netherite_leggings','netherite_boots','splash_potion','potion_overlay','experience_bottle']],['block',['grass_block_top','grass_block_side','grass_block_side_overlay','dirt','stone','cobblestone']]])ns.forEach(n=>go('textures/'+d+'/'+n+'.png',n));
+ for(const[d,ns]of[['item',['netherite_spear','mace','wind_charge','firework_rocket','elytra','netherite_chestplate','netherite_sword','netherite_axe','ender_pearl','totem_of_undying','golden_carrot','cooked_beef','diamond_sword','diamond_axe','golden_apple','diamond_helmet','diamond_chestplate','diamond_leggings','diamond_boots','netherite_helmet','netherite_leggings','netherite_boots','splash_potion','potion_overlay','experience_bottle','iron_ingot','diamond','quartz','netherite_ingot','redstone','copper_ingot','gold_ingot','emerald','lapis_lazuli','amethyst_shard','resin_brick']],['block',['grass_block_top','grass_block_side','grass_block_side_overlay','dirt','stone','cobblestone']]])ns.forEach(n=>go('textures/'+d+'/'+n+'.png',n));
 ['critical_hit','enchanted_hit','damage',...spNames()].forEach(n=>go('textures/particle/'+n+'.png','p_'+n));
- TRP.forEach(p=>{go('textures/trims/entity/humanoid/'+p+'.png','tr_h_'+p);go('textures/trims/entity/humanoid_leggings/'+p+'.png','tr_l_'+p)});[...Object.keys(TRC),'trim_palette','iron_darker','gold_darker','diamond_darker','netherite_darker','copper_darker'].forEach(m=>go('textures/trims/color_palettes/'+m+'.png','tr_p_'+m));go('textures/entity/equipment/humanoid/netherite.png','armor_1');go('textures/entity/equipment/humanoid_leggings/netherite.png','armor_2');go('textures/entity/shield/shield_base_nopattern.png','shield_base');go('textures/entity/shield_base_nopattern.png','shield_base');go('textures/entity/equipment/humanoid/diamond.png','darmor_1');go('textures/entity/equipment/humanoid_leggings/diamond.png','darmor_2');$('tpf').textContent='Looking for a textures folder next to this page (textures/item, textures/block, textures/particle, textures/entity/equipment).'}
+ TRP.forEach(p=>{go('textures/trims/entity/humanoid/'+p+'.png','tr_h_'+p);go('textures/trims/entity/humanoid_leggings/'+p+'.png','tr_l_'+p)});['helmet','chestplate','leggings','boots'].forEach(p=>go('textures/trims/items/'+p+'_trim.png','tr_t_'+p+'_trim'));[...Object.keys(TRC),'trim_palette','iron_darker','gold_darker','diamond_darker','netherite_darker','copper_darker'].forEach(m=>go('textures/trims/color_palettes/'+m+'.png','tr_p_'+m));go('textures/entity/equipment/humanoid/netherite.png','armor_1');go('textures/entity/equipment/humanoid_leggings/netherite.png','armor_2');go('textures/entity/shield/shield_base_nopattern.png','shield_base');go('textures/entity/shield_base_nopattern.png','shield_base');go('textures/entity/equipment/humanoid/diamond.png','darmor_1');go('textures/entity/equipment/humanoid_leggings/diamond.png','darmor_2');$('tpf').textContent='Looking for a textures folder next to this page (textures/item, textures/block, textures/particle, textures/entity/equipment).'}
 setTimeout(autoTex,600);
 // Minecraft-style cursor: click a slot to pick the item up, click another slot to place or swap, right-click places into an empty slot
 let cur=null;
@@ -1282,7 +1282,7 @@ function slotClick(t,right,e){const d=t.dataset;
 function curBack(){if(!cur)return;const k=cur.k,f=cur.from;let d=f;if(d===null||d==='arm'||lget(LV,d))d=fh()!==null?fh():fmi();if(f==='arm'&&d===null)zWear(k);else if(f!==null&&d!==null)cop(d)(A=>lset(A,d,k));setCur(null);resync()}
 $('inv').addEventListener('contextmenu',e=>{const t=zslot(e);if(t&&t.dataset.ar===undefined){e.preventDefault();slotClick(t,1,e)}});
 document.addEventListener('mousemove',e=>{if(cur){const i=$('cur');i.style.left=e.clientX+'px';i.style.top=e.clientY+'px'}});
-const TWL=/^(experience_bottle|golden_apple|diamond_(sword|axe|helmet|chestplate|leggings|boots)|netherite_(spear|chestplate|sword|axe|helmet|leggings|boots)|mace|wind_charge|firework_rocket|elytra|ender_pearl|totem_of_undying|golden_carrot|cooked_beef|splash_potion|potion_overlay|grass_block_top|grass_block_side|grass_block_side_overlay|dirt|stone|cobblestone)$/;
+const TWL=/^(experience_bottle|golden_apple|diamond_(sword|axe|helmet|chestplate|leggings|boots)|netherite_(spear|chestplate|sword|axe|helmet|leggings|boots)|mace|wind_charge|firework_rocket|elytra|ender_pearl|totem_of_undying|golden_carrot|cooked_beef|splash_potion|potion_overlay|grass_block_top|grass_block_side|grass_block_side_overlay|dirt|stone|cobblestone|iron_ingot|diamond|quartz|netherite_ingot|redstone|copper_ingot|gold_ingot|emerald|lapis_lazuli|amethyst_shard|resin_brick)$/;
 const PTT={b:null,o:null},PCOLS={14:[51,235,255],15:[255,199,0],16:[248,36,35]};
 function buildPot(){if(!PTT.b||!PTT.o)return;for(const id in PCOLS){const w=PTT.b.width,c=document.createElement('canvas');c.width=c.height=w;const g=c.getContext('2d');g.drawImage(PTT.b,0,0,w,w);const o=document.createElement('canvas');o.width=o.height=w;const q=o.getContext('2d');q.drawImage(PTT.o,0,0,w,w);q.globalCompositeOperation='multiply';q.fillStyle='rgb('+PCOLS[id].join(',')+')';q.fillRect(0,0,w,w);q.globalCompositeOperation='destination-in';q.drawImage(PTT.o,0,0,w,w);g.drawImage(o,0,0);const im=new Image();im.onload=()=>{IMG[id]=im;imgRev++};im.src=c.toDataURL()}}
 let hov=null;
@@ -1324,7 +1324,7 @@ function pvInit(){try{PVR=new T.WebGLRenderer({antialias:true,alpha:true,preserv
 function pmR(cid){if(PVF)return pmR2D();if(!PVR)pvInit();if(!PVR)return pmR2D();
  const c=$(cid||'pmc');if(c.width!=192){c.width=192;c.height=260}
  for(let i=1;i<PVA.length;i++){const b=PVB[i];b.visible=(b.isMesh&&b.geometry&&b.geometry.type=='PlaneGeometry')?false:PVA[i].visible}
- PVM.visible=true;PVW.visible=chest=='elytra';
+ PVM.visible=true;PVW.visible=chest=='elytra'&&cid!='tvc';if(cid=='tvc')PVB.forEach(b=>{const u=b.userData;if(u&&u.L)b.visible=u.tr?!!b.material.map:!!AT[u.L]});
  {const d=4.7,cx=Math.cos(VRX||0);PVC.position.set(Math.sin(VRY||0)*cx*d,.93+Math.sin(VRX||0)*d,Math.cos(VRY||0)*cx*d);PVC.lookAt(0,.93,0)};
  PVR.render(PVS,PVC);const g=c.getContext('2d');g.clearRect(0,0,192,260);g.drawImage(PVR.domElement,0,0,192,260)}
 function pmR2D(){const c=$('pmc'),g=c.getContext('2d'),f=(x,y,w,h,k)=>{g.fillStyle=k;g.fillRect(x,y,w,h)},N1=DIA()?'#2fb5ad':'#3f303b',N2=DIA()?'#8cf2ea':'#5d565d',sk='#c68b64',pl=chest=='plate';if(c.width!=48){c.width=48;c.height=65}g.clearRect(0,0,48,65);
@@ -1418,7 +1418,7 @@ function buildSide(){if(!SD.b)return;const w=SD.b.width,c=document.createElement
 function useImg(n,src){const im=new Image();im.onload=()=>{LD.add(n);texList();const mt=TM[n];
  if(mt){const t=new T.Texture(im);t.magFilter=T.NearestFilter;t.minFilter=T.NearestMipmapLinearFilter;t.needsUpdate=true;mt.map=t;mt.needsUpdate=true;if(n=='grass_block_top'){t.wrapS=t.wrapT=T.RepeatWrapping;t.needsUpdate=true;mt.color.setHex(0x91bd59)}}
  else if(n=='shield_base'){shdTex(im)}else if(/^d?armor_[12]$/.test(n)){const t=new T.Texture(im);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;(n[0]=='d'?DAT:NAT)[n.slice(-1)]=t;zArmSet()}else if(n=='splash_potion'){PTT.b=im;buildPot()}else if(n=='potion_overlay'){PTT.o=im;buildPot()}else if(n=='grass_block_side'){SD.b=im;buildSide()}else if(n=='grass_block_side_overlay'){SD.o=im;buildSide()}
- else if(n.indexOf('tr_')==0){TRI[n.slice(3)]=im;TRI.rev++;trimApply()}else if(n.indexOf('p_')==0)zPT(n.slice(2),im);else if(n in SK){IMG[SK[n]]=im;if(ZA[SK[n]])IMN[SK[n]]=im;zArmSet();imgRev++}};im.src=src}
+ else if(MITR[n]){TRI['i_'+MITR[n]]=im}else if(n.indexOf('tr_')==0){TRI[n.slice(3)]=im;TRI.rev++;trimApply()}else if(n.indexOf('p_')==0)zPT(n.slice(2),im);else if(n in SK){IMG[SK[n]]=im;if(ZA[SK[n]])IMN[SK[n]]=im;zArmSet();imgRev++}};im.src=src}
 function saveTx(n,src){TX[n]=src;try{localStorage.setItem('sdtx',JSON.stringify(TX))}catch(_){}}
 setTimeout(()=>{for(const n in TX)useImg(n,TX[n])},300);
 $('tp').onclick=e=>e.stopPropagation();
@@ -1577,7 +1577,7 @@ function ttLines(key){const k=zb(key),L=[];if(!k)return L;const A=TA[k],tm=A?TRM
  return L}
 document.addEventListener('mousemove',e=>{const tt=$('tt');if(!invOpen||cur){tt.style.display='none';return}
  const t=e.target.closest&&e.target.closest('#inv [data-s],#inv [data-o],#inv [data-m],#inv [data-p],#inv [data-ar]');let k=null;
- if(t){const d=t.dataset;k=d.s!==undefined?HB[+d.s]:d.o!==undefined?OH:d.m!==undefined?MI[+d.m]:d.p!==undefined?res(d.p):zWorn(d.ar)}
+ if(t){const d=t.dataset;k=res(d.s!==undefined?HB[+d.s]:d.o!==undefined?OH:d.m!==undefined?MI[+d.m]:d.p!==undefined?d.p:zWorn(d.ar))}
  if(!k){tt.style.display='none';return}
  const h=ttLines(k).map(([x,c])=>x?`<div style="--c:${TCC[c]||c}">${x}</div>`:'<div class="g"></div>').join('');if(tt._h!==h){tt._h=h;tt.innerHTML=h}tt.style.display='block';
  let x=e.clientX+14,y=e.clientY-14;const w=tt.offsetWidth,q=tt.offsetHeight;if(x+w>innerWidth-4)x=Math.max(4,e.clientX-w-14);if(y+q>innerHeight-4)y=innerHeight-q-4;if(y<4)y=4;tt.style.left=x+'px';tt.style.top=y+'px'});
@@ -1587,7 +1587,7 @@ try{const u=localStorage.getItem('sdfont');if(u)tfLoad(u)}catch(_){}
 $('tfp').onclick=e=>e.stopPropagation();$('tfp').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{tfLoad(r.result);try{localStorage.setItem('sdfont',r.result)}catch(_){}};r.readAsDataURL(f)};
 // ===== armour trims: recolour the grey trim textures with the material palette, drawn as a second shell over the armour =====
 const TRI={rev:0},TRT={};
-function trCv(im){const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const g=c.getContext('2d');g.drawImage(im,0,0);return g}
+function trCv(im){const c=document.createElement('canvas');c.width=im.width;c.height=im.height;const g=c.getContext('2d');g.drawImage(im,0,0);return c}
 function trPal(n){const im=TRI['p_'+n];if(!im)return null;const d=trCv(im).getContext('2d').getImageData(0,0,im.width,1).data,r=[];for(let i=0;i<im.width;i++)r.push([d[i*4],d[i*4+1],d[i*4+2]]);return r}
 function trTex(s,pm){if(!pm)return null;const lay=s=='l'?'l':'h',im=TRI[lay+'_'+pm[0]];if(!im)return null;
  const dk=(pm[1]=='diamond'&&DIA())||(pm[1]=='netherite'&&!DIA())?'_darker':'',pal=trPal(pm[1]+dk)||trPal(pm[1]);if(!pal)return null;
@@ -1595,11 +1595,21 @@ function trTex(s,pm){if(!pm)return null;const lay=s=='l'?'l':'h',im=TRI[lay+'_'+
  const c=trCv(im),g=c.getContext('2d'),id=g.getImageData(0,0,im.width,im.height),d=id.data;
  for(let i=0;i<d.length;i+=4){if(d[i+3]<8)continue;let b=0,bd=1e9;key.forEach((q,j)=>{const e=(q[0]-d[i])**2+(q[1]-d[i+1])**2+(q[2]-d[i+2])**2;if(e<bd){bd=e;b=j}});const q=pal[Math.min(b,pal.length-1)];d[i]=q[0];d[i+1]=q[1];d[i+2]=q[2]}
  g.putImageData(id,0,0);const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return TRT[kk]=t}
-function trimApply(){for(const[t,o]of[[TP,TRM.p],[TB,TRM.b]])for(const k in t.P)t.P[k].forEach(m=>{if(m.userData.tr){m.material.map=trTex(k,o[k]);m.material.needsUpdate=true}});if(invOpen)renderInv();if(trmOpen)pmR('tvc')}
+function trimApply(){trIcons();for(const[t,o]of[[TP,TRM.p],[TB,TRM.b]])for(const k in t.P)t.P[k].forEach(m=>{if(m.userData.tr){m.material.map=trTex(k,o[k]);m.material.needsUpdate=true}});if(invOpen)renderInv();if(trmOpen)pmR('tvc')}
+const MITR={iron_ingot:'iron',diamond:'diamond',quartz:'quartz',netherite_ingot:'netherite',redstone:'redstone',copper_ingot:'copper',gold_ingot:'gold',emerald:'emerald',lapis_lazuli:'lapis',amethyst_shard:'amethyst',resin_brick:'resin'},TRB={},TRO={};
+function trPalFor(m){return trPal(m+((m=='diamond'&&DIA())||(m=='netherite'&&!DIA())?'_darker':''))||trPal(m)}
+// trimmed armour icons: the game's trims/items overlay, recoloured, drawn over the plain icon
+function trIcons(){const key=trPal('trim_palette')||Array.from({length:8},(_,i)=>{const v=255-i*34;return[v,v,v]});
+ for(const[s,id,nm]of[['h',11,'helmet'],['c',5,'chestplate'],['l',12,'leggings'],['b',13,'boots']]){let b=IMG[id];if(b&&b===TRO[id])b=TRB[id];else TRB[id]=b;if(!b)continue;
+  const pm=TRM.p[s],ov=TRI['t_'+nm+'_trim'],pal=pm&&ov?trPalFor(pm[1]):null;
+  if(!pal){if(TRO[id]&&IMG[id]===TRO[id]){IMG[id]=b;TRO[id]=null;imgRev++}continue}
+  const c=trCv(ov),g=c.getContext('2d'),d0=g.getImageData(0,0,ov.width,ov.height),d=d0.data;
+  for(let i=0;i<d.length;i+=4){if(d[i+3]<8)continue;let q=0,bd=1e9;key.forEach((k,j)=>{const e=(k[0]-d[i])**2+(k[1]-d[i+1])**2+(k[2]-d[i+2])**2;if(e<bd){bd=e;q=j}});const p=pal[Math.min(q,pal.length-1)];d[i]=p[0];d[i+1]=p[1];d[i+2]=p[2]}
+  g.putImageData(d0,0,0);const o=document.createElement('canvas');o.width=o.height=16;const h=o.getContext('2d');h.imageSmoothingEnabled=false;h.drawImage(b,0,0,16,16);h.drawImage(c,0,0,16,16);o.src=o.toDataURL();IMG[id]=o;TRO[id]=o;imgRev++}}
 var trmOpen=0,trSel='c';
 function trmUI(){const c=TRM.p[trSel]||['',''];$('trps').innerHTML=TRS.map(s=>`<button data-ts="${s}"${s==trSel?' class="on"':''}>${TRN[s]}${TRM.p[s]?' ✓':''}</button>`).join('');
  $('trpat').innerHTML='<option value="">No trim</option>'+TRP.map(p=>`<option value="${p}"${p==c[0]?' selected':''}>${cap(p)}</option>`).join('');
- $('trmts').innerHTML=Object.keys(TRC).map(m=>`<button data-tm="${m}" title="${cap(m)}" style="width:34px;height:34px;padding:0;background:${TRC[m]};border:3px solid ${m==c[1]?'#fff':'#000'}"></button>`).join('');
+ $('trmts').innerHTML=Object.keys(TRC).map(m=>`<button data-tm="${m}" title="${cap(m)}" style="width:44px;height:44px;padding:0;background:${TRI['i_'+m]?'#2b3542':TRC[m]};border:3px solid ${m==c[1]?'#fff':'#000'}">${TRI['i_'+m]?'<img src="'+TRI['i_'+m].src+'" style="width:32px;image-rendering:pixelated;display:block;margin:auto">':''}</button>`).join('');
  $('trh').textContent='Trim textures loaded: '+TRP.filter(p=>TRI['h_'+p]).length+'/'+TRP.length+' patterns, '+Object.keys(TRC).filter(m=>TRI['p_'+m]).length+'/'+Object.keys(TRC).length+' palettes. Put them in textures/trims next to this page, or pick the trims folder under Textures on the start menu. Trims draw on top of the textured armour, so load the armour layer files too. Online, your opponent sees your trims and you see theirs.'}
 function trSet(pm){TRM.p[trSel]=pm;try{localStorage.setItem('sdtr',JSON.stringify(TRM.p))}catch(_){}trimApply();trmUI()}
 function openTrm(){trmOpen=1;$('trm').style.display='flex';trmUI();pmR('tvc')}
