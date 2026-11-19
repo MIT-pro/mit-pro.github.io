@@ -863,7 +863,7 @@ function botAI(){if(rd.st=='cage'){if(gm=='neth'&&!online)nethCage();return}
  if(rd.st!='fight')return;
  const D=DF[gd],A=gm=='axe'||gm=='neth'?AXA[Math.min(3,gd)]:D,mace=gm=='mace',eb=[N.p[0],N.p[1]+1.62,N.p[2]];BT.lt=Math.max(0,BT.lt-1);BT.wt=Math.max(0,BT.wt-1);
  BT.hist.push([P.p[0],P.p[1],P.p[2],P.p[0]-P.pp[0],P.p[1]-P.pp[1],P.p[2]-P.pp[2]]);if(BT.hist.length>14)BT.hist.shift();
- const h=BT.hist[Math.max(0,BT.hist.length-1-A.react)],ld=A!==D?A.ld:D.lead*8,dx=h[0]+h[3]*ld-eb[0],dy=h[1]+.9+h[4]*ld*.4-eb[1],dz=h[2]+h[5]*ld-eb[2],hd=Math.hypot(dx,dz)||.001,
+ const h=BT.hist[Math.max(0,BT.hist.length-1-A.react)],ld=(A!==D?A.ld:D.lead*8)+(gd>0?A.react*.8:0),dx=h[0]+h[3]*ld-eb[0],dy=h[1]+.9+h[4]*ld*.4-eb[1],dz=h[2]+h[5]*ld-eb[2],hd=Math.hypot(dx,dz)||.001,
   wy=BT.away?awayYaw():AM.aim?Math.atan2(-(AM.aim[0]-eb[0]),-(AM.aim[2]-eb[2])):Math.atan2(-dx,-dz),wp=BT.away?.2:AM.aim?Math.atan2(AM.aim[1]-eb[1],Math.hypot(AM.aim[0]-eb[0],AM.aim[2]-eb[2])||.001):Math.atan2(dy,hd),dw=Math.atan2(Math.sin(wy-BT.yaw),Math.cos(wy-BT.yaw));
  BT.yaw+=Math.max(-A.turn,Math.min(A.turn,dw*A.aim*2))+(Math.random()-.5)*A.noise;
  BT.pit+=(Math.max(-1.45,Math.min(1.45,wp))-BT.pit)*Math.min(1,A.aim*2)+(Math.random()-.5)*A.noise*.5;
@@ -920,7 +920,7 @@ function botAI(){if(rd.st=='cage'){if(gm=='neth'&&!online)nethCage();return}
   if(dist>9)str=0;
   if(D.crit&&N.og&&dist<3.4&&s>=.5&&s<.9&&BT.idle<12&&!threat&&Math.random()<D.crit*.3){jump=1;spr=0}
   let want=D.ready;if(threat||BT.idle>=12)want=Math.min(want,.88);if(BT.idle>=28)want=Math.min(want,.6);
-  if(dist<3.4&&s>=want&&!(D.crit&&air&&N.v[1]>0&&!threat&&BT.idle<12)){if(falling&&s>=1)spr=0;swing=1}
+  if(dist<3.4&&s>=want&&(reach||gd<1)&&!(D.crit&&air&&N.v[1]>0&&!threat&&BT.idle<12)){if(falling&&s>=1)spr=0;swing=1}
  }else if(D.master){
   const hgt=N.p[1],fd=N.impY!==undefined?Math.min(N.fall,Math.max(0,N.impY-hgt)):N.fall,edge=Math.hypot(N.p[0],N.p[2])>ARR-3;
   if(N.og){
