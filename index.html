@@ -8,6 +8,7 @@
 :root[data-theme="dark"]{--bg:#10151c;--panel:#1d242d;--fg:#eef2f6;--mut:#a9b8c8}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 html,body{height:100%;margin:0;background:var(--bg);overflow:hidden;font:14px/1.5 "Trebuchet MS",Verdana,sans-serif;color:var(--fg)}
+#hand,#hand2{display:none!important}
 canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 #ui{pointer-events:none}
 #ov{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;background:rgba(8,12,18,.75);cursor:pointer;padding:12px;overflow:auto}
@@ -409,7 +410,7 @@ function boom(c,dv,src){snd('windburst',c);wcBurst(c);
  f([P.p[0],P.p[1]+.2,P.p[2]],V7,P);f([N.p[0],N.p[1]+.2,N.p[2]],V7*(fight?1:.8),N);
  PRL.forEach(q=>{const d=Math.hypot(q.p[0]-c[0],q.p[1]-c[1],q.p[2]-c[2]);if(d<3.5){const k=.6*V7*Math.min(1,(3.5-d)/1.3),u=d<.3&&dv?dv.slice():[q.p[0]-c[0],q.p[1]-c[1],q.p[2]-c[2]],l=Math.hypot(...u)||1;for(let j=0;j<3;j++)q.v[j]+=u[j]/l*k}})}
 function lg(m){log.unshift(m);log.length=Math.min(log.length,7)}
-function doSwing(h){if(h!='off')psw=1;const e=$(h=='off'?'hold2':'hold');e.classList.remove('sw');void e.offsetWidth;e.classList.add('sw')}
+function doSwing(h){if(h!='off')psw=1;HP.sw[h=='off'?1:0]=performance.now()}
 const DM={sword:8,axe:10,dsword:7,daxe:12},NMS={sword:'Sword',axe:'Axe',dsword:'Sword',daxe:'Axe',wind:'Wind charge',firework:'Firework',plate:'Chestplate',elytra:'Elytra'};
 function DIA(){return gm=='axe'||gm=='sword'||gm=='neth'||gm=='bow'}
 function shb(k){return (k=='sword'&&gm!='sword'&&gm!='axe'&&gm!='neth')||(k=='axe'&&gm!='axe')?3:0}
@@ -1243,10 +1244,10 @@ function zGlintFill(c){const id=+c.dataset.id,im=IMG[id],n=c.width;let e=GM['h'+
  for(let py=0;py<n;py++)for(let px=0;px<n;px++){const k=(py*n+px)*4;O[k+3]=A[k+3];if(A[k+3]<10){O[k]=O[k+1]=O[k+2]=0;continue}const X=(px/r)|0,Y=(py/r)|0,i1=(((X*2+o1)&63)+((Y*2+(o1>>1))&63)*64)*4,i2=((((X*3+64-o2)&63))+((Y*3+o2)&63)*64)*4;O[k]=Math.min(255,A[k]+(GLD[i1]+GLD[i2])*.3);O[k+1]=Math.min(255,A[k+1]+(GLD[i1+1]+GLD[i2+1])*.3);O[k+2]=Math.min(255,A[k+2]+(GLD[i1+2]+GLD[i2+2])*.3)}
  c.getContext('2d').putImageData(e.o,0,0)}
 function zGlintHand(t){if(t-(zGlintHand.l||0)<33)return;zGlintHand.l=t;document.querySelectorAll('#hold canvas.gcv,#hold2 canvas.gcv').forEach(zGlintFill)}
-function hand(){const k=hk(),ko=offK(),kk=k+'|'+ko+'|'+chest+'|'+OH+'|'+HB[sel]+'|'+iid(sel),h2=$('hold2');if(kk===hk0&&hrev===imgRev&&!!ko===!!h2.firstChild&&(h2.dataset.k||'')===(ko||''))return;hk0=kk;hrev=imgRev;
- const pose=(id,q)=>{if(id=='hand')ZS.bq=q;const st=$(id).style;st.setProperty('--rx',q[0]+'deg');st.setProperty('--ry',q[1]+'deg');st.setProperty('--rz',q[2]+'deg')};
+function hand(){const k=hk(),ko=offK(),kk=k+'|'+ko+'|'+chest+'|'+OH+'|'+HB[sel]+'|'+iid(sel),h2=$('hold2');if(kk===hk0&&hrev===imgRev&&(h2.dataset.k||'')===(ko||''))return;hk0=kk;hrev=imgRev;
+ const pose=(id,q)=>{if(id=='hand')ZS.bq=q;if(id=='hand2')ZS.bq2=q;const st=$(id).style;st.setProperty('--rx',q[0]+'deg');st.setProperty('--ry',q[1]+'deg');st.setProperty('--rz',q[2]+'deg')};
  pose('hand',k=='wind'?[1,-32,-20]:k=='crossbow'?[0,0,0]:[-1,-32,-8]);pose('hand2',ko=='wind'?[1,32,20]:[-1,32,8]);
- layers($('hold'),iid(sel));layers($('hold2'),ko?zIc(ko,false):-1);h2.dataset.k=ko||''}
+ handItem(0,iid(sel));handItem(1,ko?zIc(ko,false):-1);h2.dataset.k=ko||''}
 const ID={spear:0,mace:1,wind:2,firework:3,elytra:4,plate:5,sword:6,axe:7,pearl:8,totem:9,gcarrot:10,spot:14,stpot:15,hpot:16,steak:17,helm:11,legs:12,boots:13,xp:18,xq:18,dsword:23,daxe:24,gapple:25,shield:26},
  NAMES={spear:'Netherite Spear',mace:'Netherite Mace',wind:'Wind Charge',firework:'Firework Rocket',plate:'Netherite Chestplate',elytra:'Elytra',sword:'Netherite Sword',axe:'Netherite Axe',pearl:'Ender Pearl',totem:'Totem of Undying',gcarrot:'Golden Carrot',spot:'Splash Potion of Swiftness',stpot:'Splash Potion of Strength II',hpot:'Splash Potion of Instant Health II',steak:'Steak',helm:'Netherite Helmet',legs:'Netherite Leggings',boots:'Netherite Boots',xp:"Bottle o' Enchanting",xq:"Bottle o' Enchanting",dsword:'Diamond Sword',daxe:'Diamond Axe',gapple:'Golden Apple',shield:'Shield'},
  ENK={spear:['Lunge III','Jab 5 · reach 4.5 · hold use to charge'],mace:['Density V','Wind Burst III · base 6 · smash from 1.5 blocks'],sword:['Sharpness V'],axe:['Sharpness V'],daxe:['Axe · 9 damage · disables shields']},
@@ -1464,8 +1465,8 @@ function frame(t){requestAnimationFrame(frame);const pfS=performance.now();zGlin
  L0=[-Math.sin(yaw)*Math.cos(pit),Math.sin(pit),-Math.cos(yaw)*Math.cos(pit)];
  NG.position.set(l(N.pp[0],N.p[0]),l(N.pp[1],N.p[1]),l(N.pp[2],N.p[2]));{const d=Math.atan2(Math.sin(N.rot-(ZS.nr||0)),Math.cos(N.rot-(ZS.nr||0)));ZS.nr=(ZS.nr||0)+d*Math.min(1,dt/45);NG.rotation.y=ZS.nr}{const far=Math.hypot(NG.position.x-cam.position.x,NG.position.z-cam.position.z)>32;if(far!==GLF){GLF=far;if(!GLL){GLL=[];for(const g of[AR,AR2,TB.G1,TB.G2])g.traverse(o=>{if(o.userData.gl)GLL.push(o)})}GLL.forEach(o=>o.visible=!far)}}SH.visible=!!shieldOn&&N.dis<=0;HBX.visible=!!showHB;HBX.position.set(NG.position.x,NG.position.y,NG.position.z);updFx(locked||(invOpen&&invG)?dt/50*spd:0);updSmash(locked||(invOpen&&invG)?dt/50*spd:0);updSpr(locked||(invOpen&&invG)?dt/50*spd:0);botItem();botOff();bsw=Math.max(0,bsw-dt/180);NM.forEach(m=>m.emissive.setHex(N.fl?0x991111:0));
  PRL.concat(WC).forEach(w=>{if(w.q)w.m.position.set(l(w.q[0],w.p[0]),l(w.q[1],w.p[1]),l(w.q[2],w.p[2]))});zProjHB();POT.concat(XPB,XPO).forEach(w=>{if(w.q&&w.m)w.m.position.set(l(w.q[0],w.p[0]),l(w.q[1],w.p[1]),l(w.q[2],w.p[2]))});ARW.forEach(w=>{if(w.ent)arrowAttach(w,l)});ARW.forEach(w=>{if(w.q&&!w.st)w.m.position.set(l(w.q[0],w.p[0]),l(w.q[1],w.p[1]),l(w.q[2],w.p[2]))});
- zFrame(dt,t);zJit(t);hand();zGlintWatch();zGlintHand(t);shdUpd(dt);zCharge2(dt);shdOpp(dt);plFrame(dt);shdPly(dt);if(invOpen)cdDom();{const yy=Math.round((1-meter())*110*zhs()/120);if(yy!==ly){ly=yy;$('rise').style.setProperty('--y',yy+'px')}}
- {const q1=performance.now();R.render(S,cam);shdRender();pRd=pRd*.9+(performance.now()-q1)*.1}if(t-lh>(perf?50:15)){lh=t;const q2=performance.now();hud();pHd=pHd*.9+(performance.now()-q2)*.1}pfN++;pfJ+=performance.now()-pfS;if(rdt>pfW)pfW=rdt;
+ zFrame(dt,t);zJit(t);hand();shdUpd(dt);zCharge2(dt);shdOpp(dt);plFrame(dt);shdPly(dt);if(invOpen)cdDom();{const yy=Math.round((1-meter())*110*zhs()/120);HP.rt=yy;ly=yy;}
+ {const q1=performance.now();R.render(S,cam);shdRender();handRender(dt);pRd=pRd*.9+(performance.now()-q1)*.1}if(t-lh>(perf?50:15)){lh=t;const q2=performance.now();hud();pHd=pHd*.9+(performance.now()-q2)*.1}pfN++;pfJ+=performance.now()-pfS;if(rdt>pfW)pfW=rdt;
  if(!showPerf){lpf=t;pfN=pfW=pfJ=0}else if(t-lpf>500){const el=t-lpf;lpf=t;let gw='';try{const gl=R.getContext(),bf=new Uint8Array(4),g0=performance.now();gl.readPixels(0,0,1,1,gl.RGBA,gl.UNSIGNED_BYTE,bf);gw=' | GPU wait '+(performance.now()-g0).toFixed(1)+' ms'}catch(_){}
   $('pf').textContent=(pfN*1000/el).toFixed(0)+' fps avg, worst frame '+pfW.toFixed(0)+' ms | JS '+(pfJ/pfN).toFixed(1)+' ms/frame (tick '+pTk.toFixed(1)+', render '+pRd.toFixed(1)+', hud '+pHd.toFixed(1)+')'+gw+' | draw calls '+R.info.render.calls+' | triangles '+R.info.render.triangles;pfN=pfW=pfJ=0}}
 const SK={experience_bottle:18,netherite_spear:0,spear:0,mace:1,netherite_mace:1,wind_charge:2,wind:2,firework_rocket:3,elytra:4,netherite_chestplate:5,netherite_sword:6,sword:6,netherite_axe:7,axe:7,ender_pearl:8,pearl:8,totem_of_undying:9,totem:9,golden_carrot:10,carrot:10,gcarrot:10,cooked_beef:17,netherite_helmet:11,netherite_leggings:12,netherite_boots:13,diamond_sword:23,diamond_axe:24,golden_apple:25,diamond_helmet:19,diamond_chestplate:20,diamond_leggings:21,diamond_boots:22},
@@ -1518,7 +1519,7 @@ function prlFx(c){for(let i=0;i<32;i++){const a=rr()*6.283,b=rr()*2-1,r=Math.sqr
 function wcTrail(p){if(rr()<.7)spFx('small_gust',p,[1,1,1],{l:10})}
 function wcBurst(c){spFx('gust',c,[1,1,1],{l:12});for(let i=0;i<10;i++){const a=rr()*6.283,b=rr()-.3,r=Math.sqrt(Math.max(0,1-b*b)),u=.18+rr()*.15;spFx('small_gust',c,[1,1,1],{v:[Math.cos(a)*r*u,b*u,Math.sin(a)*r*u],l:12+rr()*6,d:.88})}}
 // hand size helper and armour restore between duel rounds
-function zhs(){if(!ZS.hv){const w=$('hand').offsetWidth;if(w){ZS.hs=w/2;ZS.hv=1}}return ZS.hs||120}addEventListener('resize',()=>{ZS.hv=0});
+function zhs(){return Math.min(1400,Math.max(480,1.05*innerHeight))/2}addEventListener('resize',()=>{hk0=null});
 function zFightArmor(){if(!fight||!LDEF[gm])return;AP.h=AP.l=AP.b=1;chest='plate';const a=k=>k&&zS[zb(k)]&&zb(k)!='elytra',cl=A=>{for(let i=0;i<9;i++)if(a(A.HB[i]))A.HB[i]=null;if(a(A.OH))A.OH=null};cl(LV);if(HM.HB)cl(HM);if(cur&&a(cur.k))setCur(null);if(invOpen)renderInv()}
 // title logo: tries the web address, falls back to a file you pick (remembered)
 {const l=$('logo');try{const s=localStorage.getItem('sdlogo');if(s)l.src=s}catch(_){}l.onerror=()=>{l.style.display='none'};$('lgp').onclick=e=>e.stopPropagation();$('lgp').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{l.style.display='block';l.src=r.result;try{localStorage.setItem('sdlogo',r.result)}catch(_){}};r.readAsDataURL(f)}}
@@ -1538,7 +1539,7 @@ function eatApple(){const o=TO.p;o.a=Math.max(o.a,4);o.at=2400;o.rg=Math.max(o.r
 function axeEat(dist){if((gm!='axe'&&gm!='sword')||online)return;if(BF.eat>0){if(dist<2.4&&tk-BT.hurt<10)BF.eat=0;else if(++BF.eat>=32){BF.eat=0;BT.ga--;const o=TO.b;o.a=Math.max(o.a,4);o.at=2400;o.rg=Math.max(o.rg,100);BF.f=Math.min(20,BF.f+4);BF.s=Math.min(BF.f,BF.s+9.6);lg('Bot ate a golden apple')}}else if(BT.ga>0&&N.og&&bEff()<=12&&dist>3.6&&tk-BT.hurt>6)BF.eat=1}
 // glint: rebuild caches and layers after every round, and notice if the hand layers ever go missing
 function zGlintFix(){for(const k in GM)delete GM[k];hk0=null;try{const r=document.documentElement.style;if(!r.getPropertyValue('--gl'))r.setProperty('--gl','url('+GLC.toDataURL()+')')}catch(_){}document.querySelectorAll('.gl').forEach(e=>{e.style.animation='none';void e.offsetWidth;e.style.animation=''});if(invOpen)renderInv()}
-function zGlintWatch(){if((GWn=(GWn|0)+1)%60)return;if(GLON()&&GLID.has(iid(sel))&&!$('hold').querySelector('.gcv'))hk0=null;const o=offK();if(GLON()&&o&&GLID.has(ID[o])&&!$('hold2').querySelector('.gcv'))hk0=null}
+function zGlintWatch(){return;if((GWn=(GWn|0)+1)%60)return;if(GLON()&&GLID.has(iid(sel))&&!$('hold').querySelector('.gcv'))hk0=null;const o=offK();if(GLON()&&o&&GLID.has(ID[o])&&!$('hold2').querySelector('.gcv'))hk0=null}
 // texture checklist in the Textures section
 function texList(){const G=[['Arena blocks (textures/block)',['sand','sandstone','sandstone_top','cut_sandstone','chiseled_sandstone','quartz_pillar','quartz_pillar_top','cobbled_deepslate','oak_planks']],['Axe duel items (textures/item)',['diamond_sword','diamond_axe','golden_apple','diamond_helmet','diamond_chestplate','diamond_leggings','diamond_boots']],['Diamond armour layers (entity/equipment)',['darmor_1','darmor_2']],['Shield (textures/entity)',['shield_base']],['Particles (textures/particle)',spNames().map(n=>'p_'+n)]];
  $('txl').innerHTML=G.map(([t,a])=>'<b>'+t+'</b>: '+a.filter(n=>LD.has(n)).length+'/'+a.length+(a.every(n=>LD.has(n))?' loaded':'<br><small>missing: '+a.filter(n=>!LD.has(n)).map(n=>n.replace(/^p_/,'')).join(', ')+'</small>')).join('<br>')}
@@ -1756,10 +1757,9 @@ function zClrArw(){ARW.forEach(a=>S.remove(a.m));ARW.length=0}
 const HBG={},HBM=new T.LineBasicMaterial({color:0xffffff});
 function zProjHB(){for(const[A,z]of[[ARW,.5],[WC,.3125],[PRL,.25]])for(const w of A){let h=w.m.userData.hb;if(!h){h=new T.LineSegments(HBG[z]||(HBG[z]=new T.EdgesGeometry(new T.BoxGeometry(z,z,z))),HBM);w.m.userData.hb=h;w.m.add(h)}h.visible=!!showHB;if(showHB&&A===ARW)h.quaternion.copy(w.m.quaternion).invert()}}
 // the held item shakes at random: bow once fully drawn, crossbow while it charges
-function zJit(t){const xq=hk()=='crossbow'&&!view3?XQS:1;if(Math.abs((zJit.cs||1)-xq)>.004){zJit.cs=(zJit.cs||1)+(xq-(zJit.cs||1))*.5;$('hold').style.setProperty('--cs',zJit.cs.toFixed(3))}
- const on=!view3&&bwHand=='main'&&((bwK=='bow'&&bwT>=20)||bwK=='crossbow'),st=$('hold').style;
- if(on){if(t-(zJit.l||0)>45){zJit.l=t;const k=zhs()*.014;st.setProperty('--jx',((Math.random()-.5)*2*k).toFixed(1)+'px');st.setProperty('--jy',((Math.random()-.5)*2*k).toFixed(1)+'px');st.setProperty('--jr',((Math.random()-.5)*2.4).toFixed(2)+'deg')}zJit.on=1}
- else if(zJit.on){zJit.on=0;['--jx','--jy','--jr'].forEach(v=>st.removeProperty(v))}}
+function zJit(t){HP.cs+=((hk()=='crossbow'&&!view3?XQS:1)-HP.cs)*.5;
+ const on=!view3&&bwHand=='main'&&((bwK=='bow'&&bwT>=20)||bwK=='crossbow');
+ if(on){if(t-(zJit.l||0)>45){zJit.l=t;const k=zhs()*.014;HP.jx=(Math.random()-.5)*2*k;HP.jy=(Math.random()-.5)*2*k;HP.jr=(Math.random()-.5)*2.4}}else HP.jx=HP.jy=HP.jr=0}
 // crossbow hand poses from the Java clip: held flat and level at the lower right, dips to the bottom edge while charging, then rises to the centre, seen from above, once loaded
 var XQS=1,XQP={idle:[.05,.1,0,68,0,20,.7],low:[-.38,.2,-.9,84,10,25,1.1],full:[-.35,.2,0,68,5,35,0.8]};
 function zXq(){if(hk()!='crossbow'||view3)return null;const W=innerWidth,H=innerHeight,z=zhs(),L=(a,b,k)=>a+(b-a)*k,mix=(A,B,k)=>A.map((v,i)=>L(v,B[i],k));let q;
@@ -1807,5 +1807,22 @@ const DCI={0x3f303b:0xb8b8b8,0x5d565d:0xe6e6e6,0x241f20:0x808080},DII=[[5,38],[1
 function armP(k){return(gm=='bow'?{h:2,c:6,l:5,b:2}:{h:3,c:8,l:6,b:3})[k]}
 Object.assign(SK,{iron_helmet:37,iron_chestplate:38,iron_leggings:39,iron_boots:40});
 IC[37]=p=>{p(3,3,10,6,'#b8b8b8');p(3,9,3,4,'#b8b8b8');p(10,9,3,4,'#b8b8b8');p(5,5,6,2,'#e6e6e6')};IC[38]=p=>{p(3,3,10,10,'#b8b8b8');p(6,3,4,3,'#8b8b8b');p(3,3,2,3,'#e6e6e6');p(11,3,2,3,'#e6e6e6')};IC[39]=p=>{p(3,2,10,4,'#b8b8b8');p(3,6,4,8,'#b8b8b8');p(9,6,4,8,'#b8b8b8')};IC[40]=p=>{p(2,8,5,6,'#b8b8b8');p(9,8,5,6,'#b8b8b8');p(2,12,5,2,'#e6e6e6');p(9,12,5,2,'#e6e6e6')};
+
+// ===== first-person hands drawn in WebGL: the old CSS 3D layer stack is extremely slow in Firefox =====
+var HP={s:[new T.Scene(),new T.Scene()],g:[new T.Group(),new T.Group()],id:[-1,-1],sw:[0,0],jx:0,jy:0,jr:0,cs:1,rt:0,rise:0},HC=new T.PerspectiveCamera();
+HP.s[0].add(HP.g[0]);HP.s[1].add(HP.g[1]);
+function handItem(i,id){const G=HP.g[i];while(G.children.length)G.remove(G.children[0]);HP.id[i]=id;if(id<0||id==26)return;const hs=Math.min(1400,Math.max(480,1.05*innerHeight)),sz=.75*hs,tex=icoTex(id),n=(tex.image&&(tex.image.naturalWidth||tex.image.width))||16,th=sz*2/n,m=itemX(tex,sz);m.scale.z=sz*2;G.add(m);
+ if(GLID.has(id)){const gm=zGM(tex);for(const z of[-1,1]){const q=new T.Mesh(PGc(1),gm);q.scale.set(sz,sz,1);q.position.z=z*(th/2+1.5);G.add(q)}}}
+function handRender(dt){if(view3)return;const W=innerWidth,H=innerHeight,hs=Math.min(1400,Math.max(480,1.05*H)),P=hs*3.3,near=P*.1,far=P*3,now=performance.now();
+ HP.rise+=(HP.rt-HP.rise)*Math.min(1,dt/60);R.autoClear=false;R.clearDepth();
+ for(let i=0;i<2;i++){const G=HP.g[i];if(HP.id[i]<0||HP.id[i]==26)continue;
+  const hx=i?-.2*W+hs/2:1.11*W-hs/2,hy=1.22*H-hs/2,px=hx-W/2,py=-(hy-H/2),b=(i?ZS.bq2:ZS.bq)||[-1,-32,-8],c=(i?ZS.fp2:ZS.fp)||[0,0,0,0,0,0];
+  let tx=c[0]+(i?0:HP.jx),ty=c[1]+(i?0:HP.jy),tz=c[2],rx=b[0]+c[3],ry=b[1]+c[4],rz=b[2]+c[5]+(i?0:HP.jr);
+  const sw=(now-HP.sw[i])/300;if(sw>=0&&sw<1){const e=u=>u*u*(3-2*u),q=sw<.4?e(sw/.4):e((1-sw)/.6),dx=i?.7*W-hs/2:-.61*W+hs/2,dy=-.72*H+hs/2,tr=i?103:-103;tx=q*dx;ty=q*dy;tz=q*-160;rx=b[0];ry=b[1];rz=b[2]+q*(tr-b[2])}
+  G.position.set(px+tx,py-ty-(i?0:HP.rise),tz);G.rotation.set(-rx*D2R,ry*D2R,-rz*D2R);const k=i?1:HP.cs;G.scale.set(i?-k:k,k,k);
+  HC.position.set(px,py,P);HC.updateMatrixWorld();HC.matrixWorldInverse.copy(HC.matrixWorld).invert();
+  HC.projectionMatrix.makePerspective((-W/2-px)/P*near,(W/2-px)/P*near,(H/2-py)/P*near,(-H/2-py)/P*near,near,far);HC.projectionMatrixInverse.copy(HC.projectionMatrix).invert();
+  R.render(HP.s[i],HC)}
+ R.autoClear=true}
 var TRR=1;trimApply();
 </script></body></html>
