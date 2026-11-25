@@ -1887,7 +1887,7 @@ function bhUpd(){let on=0;if(locked&&!invOpen&&!ctlOpen&&!view3){const r=blockRa
 // minecart model (entity/minecart.png, 64x32): floor 20x16, four walls 16x8, all 2 px thick; the TNT block is 0.75 with tnt_side / tnt_top / tnt_bottom
 var MCM=new T.MeshLambertMaterial({color:0x8a8a92}),TNM=[0,1,2,3,4,5].map(()=>new T.MeshLambertMaterial({map:TNTT}));
 function mkCartBody(g){const Pp=(w,h,d,pw,ph,pd,u,v,x,y,z,rx,ry)=>{const m=new T.Mesh(uvBox(w,h,d,pw,ph,pd,u,v,0),MCM);m.position.set(x,y,z);m.rotation.x=rx||0;m.rotation.y=ry||0;g.add(m)},H=Math.PI/2;
- Pp(1.25,1,.125,20,16,2,0,10,0,.125,0,-H,0);Pp(1,.5,.125,16,8,2,0,0,.5625,.4375,0,0,H);Pp(1,.5,.125,16,8,2,0,0,-.5625,.4375,0,0,-H);Pp(1,.5,.125,16,8,2,0,0,0,.4375,.4375,0,0);Pp(1,.5,.125,16,8,2,0,0,0,.4375,-.4375,0,Math.PI);
+ Pp(1.25,1,.125,20,16,2,0,10,0,.125,0,-H,0);Pp(1,.5,.125,16,8,2,0,0,.5625,.4375,0,0,-H);Pp(1,.5,.125,16,8,2,0,0,-.5625,.4375,0,0,H);Pp(1,.5,.125,16,8,2,0,0,0,.4375,.4375,0,Math.PI);Pp(1,.5,.125,16,8,2,0,0,0,.4375,-.4375,0,0);
  const t=new T.Mesh(new T.BoxGeometry(.75,.75,.75),TNM);t.position.y=.6;g.add(t);return t}
 const tex1=im=>{const t=new T.Texture(im);t.magFilter=t.minFilter=T.NearestFilter;t.needsUpdate=true;return t};
 function mcSet(im){MCM.map=tex1(im);MCM.color.setHex(0xffffff);MCM.needsUpdate=true}
