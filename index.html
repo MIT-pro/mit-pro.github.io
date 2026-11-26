@@ -320,7 +320,7 @@ try{const q=JSON.parse(localStorage.getItem('sdk'));if(q){perf=q.perf?1:0;if(q.r
 cam.fov=fov;cam.updateProjectionMatrix();
 {const OKK=['spear','mace','mace2','flint','rail','cart','wind','firework','chest','sword','axe','pearl','totem','gcarrot','spot','stpot','hpot','steak','helm','plate','elytra','legs','boots','xp','xq','dsword','daxe','gapple','shield','bow','crossbow','arrow'],fx=k=>k=='carrot'?'gcarrot':(k&&OKK.includes(String(k).split('#')[0]))?k:null;HB=HB.map(fx);OH=fx(OH)}
 const DL={spear:23,mace:33.3,mace2:33.3,wind:5,sword:12.5,axe:20,dsword:12.5,daxe:20},D=k=>DL[k]||5,res=x=>x=='chest'?(chest=='elytra'?'plate':'elytra'):x?String(x).split('#')[0]:null,itemKey=i=>res(HB[i]),offK=()=>res(OH),hk=()=>itemKey(sel),iid=i=>{const k=itemKey(i);return k?zIc(k,i===sel):-1};
-const GV='cart-2026.11.25d';var mpBad='',ARW=[],HS={},XPV=0,ARID=0,BRN=0,RLC=64,PRC=16,CRC=16,PBU=0,CRT=[],RLS=new Map(),FRS=new Map(),CTID=0;let AQ=6,CBL=0,bwHand=null,bwK=null,bwT=0,ticker=40,lastK=itemKey(0),delay=D(itemKey(0));
+const GV='cart-2026.11.25e';var mpBad='',ARW=[],HS={},XPV=0,ARID=0,BRN=0,RLC=64,PRC=16,CRC=16,PBU=0,CRT=[],RLS=new Map(),FRS=new Map(),CTID=0;let AQ=6,CBL=0,bwHand=null,bwK=null,bwT=0,ticker=40,lastK=itemKey(0),delay=D(itemKey(0));
 let eatHand=null,eatT=0;const BF={f:20,s:20,eat:0,hs:0,far:0};
 function bLunge(){if(gm!='mace'||online||BT.lc===tk)return 1;if(BF.eat>0)return 0;if(BF.f<7)return 0;BT.lc=tk;const c=Math.min(BF.s,3);BF.s-=c;BF.f-=3-c;return 1}
 const fallMul=()=>gm=='mace'||gm=='cart'?.2:gm=='sword'?.68:gm=='axe'||gm=='bow'?.36:.52; // Feather Falling IV (+ Protection IV in the mace duel, capped at 80%)
@@ -357,7 +357,7 @@ function zRecv(e){
  if(e.t=='xb'){const m=new T.Mesh(POG,XPM);S.add(m);XPG.push({p:[e.x,e.y,e.z],v:[e.vx,e.vy,e.vz],m,l:0});snd('potthrow',[e.x,e.y,e.z])}
  else if(e.t=='xs'){const q=XPG.shift();if(q)S.remove(q.m);const c=[e.x,e.y,e.z];potP(c,[.5,1,.3],30,.12,.15);snd('potbreak',c);for(const v of e.v||[]){const m=new T.Mesh(POG,XPM);m.scale.setScalar(.35);S.add(m);XPOG.push({p:c.slice(),v:[(Math.random()-.5)*.2,.1+Math.random()*.1,(Math.random()-.5)*.2],xp:v,l:0,m})}}
 
- else if(e.t=='rp')addRail(e.x,e.y,e.z,e.o);else if(e.t=='fp')addFire(e.x,e.y,e.z,e.l);else if(e.t=='cb'){const c=CRT.find(q=>q.id===e.id);if(c)cartBreak(c,0)}else if(e.t=='cp'){if(!CRT.some(c=>c.id===e.id))addCart(e.id,e.x,e.y,e.z,e.o)}else if(e.t=='ci'){const c=CRT.find(q=>q.id===e.id);if(c&&(c.fuse<0||e.f<c.fuse))c.fuse=e.f}
+ else if(e.t=='rp')addRail(e.x,e.y,e.z,e.o);else if(e.t=='fp')addFire(e.x,e.y,e.z,e.l);else if(e.t=='cb'){const c=CRT.find(q=>q.id===e.id);if(c)cartBreak(c,0)}else if(e.t=='fx')fireOut(e.x,e.y,e.z,0);else if(e.t=='cp'){if(!CRT.some(c=>c.id===e.id))addCart(e.id,e.x,e.y,e.z,e.o)}else if(e.t=='ci'){const c=CRT.find(q=>q.id===e.id);if(c&&(c.fuse<0||e.f<c.fuse))c.fuse=e.f}
  else if(e.t=='ap'){for(let i=ARW.length-1;i>=0;i--)if(ARW[i].id===e.id){S.remove(ARW[i].m);ARW.splice(i,1)}}
  else if(e.t=='ar'){const m=mkArrow(),p=[e.x,e.y,e.z];S.add(m);m.position.set(...p);ARW.push({p,q:p.slice(),v:[e.vx,e.vy,e.vz],m,l:0,st:0,crit:!!e.c,own:0,id:e.id,pk:0,np:1,fl:e.fl,pw:e.pw});snd('bow',p)}
  else if(e.t=='al'){let a=ARW.find(q=>q.id===e.id);if(!a){const m=mkArrow();S.add(m);a={p:[e.x,e.y,e.z],q:null,v:[0,0,1],m,l:0,st:1,crit:0,own:0,id:e.id};ARW.push(a)}a.ent=null;a.p=[e.x,e.y,e.z];a.q=null;a.st=Math.max(8,a.st);a.pk=gm=='bow'?0:1;a.np=0;a.m.position.set(...a.p);a.m.lookAt(a.p[0]+(e.dx||0),a.p[1]+(e.dy||0),a.p[2]+(e.dz||1))}
@@ -422,7 +422,7 @@ function atk(L,eye){PF.x+=.1;
     const k=hk(),s=meter(),p=s*100|0,sw=k!==lastK,tg=sw?' (swap)':'',air=(!P.og||P.keep>0)&&!P.gl,crit=air&&P.fall>0&&s>=1&&!P.spr,sc=SCN=.2+s*s*.8;
     snd(k=='spear'?'spearattack':s>=.9?'swingstrong':'swingweak');
 
-    ticker=0;if(cartHit(L,eye,k,sc))return;
+    ticker=0;if(cartHit(L,eye,k,sc)||fireHit(L,eye))return;
  if(k=='spear'){
   const t=rayBox(eye,L,N.p,.125);if(t>=2&&t<=4.5)hit(5*sc,.5,.3,L,'Jab '+p+'%'+tg);
   if(s>=1){if(lastK=='wind'&&tk<wcCD)return lg('Wind charge cooldown, '+(wcCD-tk)+' ticks left: lunge fails');
@@ -1842,7 +1842,7 @@ Object.assign(ID,{flint:41,rail:42,cart:43});Object.assign(NAMES,{flint:'Flint a
 IC[41]=p=>{p(3,8,6,5,'#8a8a92');p(4,9,4,3,'#555');p(8,3,5,5,'#2a2a2e');p(9,4,3,3,'#444');p(7,7,2,2,'#ffb030')};
 IC[42]=p=>{for(let y=1;y<15;y+=4)p(2,y,12,2,'#7a5a2e');p(4,0,2,16,'#aaa');p(10,0,2,16,'#aaa')};
 IC[43]=p=>{p(1,10,14,4,'#6b6b72');p(2,13,3,2,'#333');p(11,13,3,2,'#333');p(4,2,8,8,'#c33');p(4,5,8,3,'#eee')};
-MD.cart='Cart PvP (online only, no bot): the mace duel arena. Sword, axe, a Flame + Power V bow, a Quick Charge III + Power crossbow, 64 arrows, flint and steel, 64 rails, 16 ender pearls, 16 golden apples, 3 totems, 3 Strength II and 3 Speed II splash potions and 19 TNT minecarts. Place a rail on the ground, a TNT minecart on the rail, then light it by right-clicking it with flint and steel, or hit it with a Flame arrow (instant blast). Flint and steel on the ground places a fire block for about 7 s: any arrow that flies through it is lit like a Flame arrow, and standing in it sets you on fire. Explosions destroy rails. Fuse 4 s, explosion power 4, the blocks are never destroyed. Flame arrows set you on fire for 5 s. Leggings and boots have Blast Protection IV (explosion damage is cut by up to 80%). Hit a TNT minecart to break it (a sword or axe needs two hits, a fist six): it goes back into your inventory and a lit fuse is cancelled.';
+MD.cart='Cart PvP (online only, no bot): the mace duel arena. Sword, axe, a Flame + Power V bow, a Quick Charge III + Power crossbow, 64 arrows, flint and steel, 64 rails, 16 ender pearls, 16 golden apples, 3 totems, 3 Strength II and 3 Speed II splash potions and 19 TNT minecarts. Place a rail on the ground, a TNT minecart on the rail, then light it by right-clicking it with flint and steel, or hit it with a Flame arrow (instant blast). Flint and steel on the ground places a fire block for about 7 s: any arrow that flies through it is lit like a Flame arrow, and standing in it sets you on fire. Explosions destroy rails. Fuse 4 s, explosion power 4, the blocks are never destroyed. Flame arrows set you on fire for 5 s. Leggings and boots have Blast Protection IV (explosion damage is cut by up to 80%). Hit a TNT minecart to break it (a sword or axe needs two hits, a fist six): it goes back into your inventory and a lit fuse is cancelled. Left-click a fire block to put it out.';
 const RLT=(()=>{const c=document.createElement('canvas');c.width=c.height=16;const g=c.getContext('2d');g.fillStyle='#7a5a2e';for(let y=1;y<16;y+=4)g.fillRect(2,y,12,2);g.fillStyle='#a8a8a8';g.fillRect(3,0,2,16);g.fillRect(11,0,2,16);const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return t})(),
  TNTT=(()=>{const c=document.createElement('canvas');c.width=c.height=16;const g=c.getContext('2d');g.fillStyle='#c8322b';g.fillRect(0,0,16,16);g.fillStyle='#e8e8e8';g.fillRect(0,5,16,6);g.fillStyle='#222';g.fillRect(2,6,2,4);g.fillRect(7,6,2,4);g.fillRect(12,6,2,4);const t=new T.CanvasTexture(c);t.magFilter=t.minFilter=T.NearestFilter;return t})(),
  RLM=new T.MeshLambertMaterial({map:RLT,transparent:true,alphaTest:.3,side:T.DoubleSide}),RLG=new T.PlaneGeometry(1,1),CBG=new T.BoxGeometry(.9,.3,.9),CTG=new T.BoxGeometry(.78,.6,.78),CMB=M(0x6b6b72),CMT=new T.MeshLambertMaterial({map:TNTT}),CMW=new T.MeshLambertMaterial({color:0xffffff});
@@ -1883,7 +1883,7 @@ var FRT={},FRX=0;
 function frBuild(){FRX=0;[0,1].forEach(i=>{const im=FRT['fire_'+i];if(!im)return;const n=Math.max(1,Math.round((im.naturalHeight||im.height)/(im.naturalWidth||im.width))),t=new T.Texture(im);t.magFilter=t.minFilter=T.NearestFilter;t.wrapT=T.RepeatWrapping;t.repeat.set(1,1/n);t._n=n;t.needsUpdate=true;FRM[i].map=t;FRM[i].needsUpdate=true;FRX=1;f0()});function f0(){FRS.forEach(f=>f.m.children.forEach(c=>c.material=FRM[f.q]))}}
 // block highlight: the black outline on the block you are looking at (reach 4.5)
 var BHL=new T.LineSegments(new T.EdgesGeometry(new T.BoxGeometry(1.004,1.004,1.004)),new T.LineBasicMaterial({color:0x000000,transparent:true,opacity:.6}));BHL.visible=false;S.add(BHL);
-function bhUpd(){let on=0;if(locked&&!invOpen&&!ctlOpen&&!view3){const r=blockRay([cam.position.x,cam.position.y,cam.position.z],L0,4.5);if(r&&B.get(r.hit.join())!==99){BHL.position.set(r.hit[0]+.5,r.hit[1]+.5,r.hit[2]+.5);on=1}}BHL.visible=!!on}
+function bhUpd(){let on=0;if(locked&&!invOpen&&!ctlOpen&&!view3){const r=bhTarget([cam.position.x,cam.position.y,cam.position.z],L0,4.5);if(r){BHL.position.set(r[0]+.5,r[1]+.5,r[2]+.5);on=1}}BHL.visible=!!on}
 // minecart model (entity/minecart.png, 64x32): floor 20x16, four walls 16x8, all 2 px thick; the TNT block is 0.75 with tnt_side / tnt_top / tnt_bottom
 var MCM=new T.MeshLambertMaterial({color:0x8a8a92}),TNM=[0,1,2,3,4,5].map(()=>new T.MeshLambertMaterial({map:TNTT}));
 function mkCartBody(g){const Pp=(w,h,d,pw,ph,pd,u,v,x,y,z,rx,ry)=>{const m=new T.Mesh(uvBox(w,h,d,pw,ph,pd,u,v,0),MCM);m.position.set(x,y,z);m.rotation.x=rx||0;m.rotation.y=ry||0;g.add(m)},H=Math.PI/2;
@@ -1897,5 +1897,10 @@ function railSet(im){RLM.map=tex1(im);RLM.needsUpdate=true}
 function cartHit(L,eye,k,sc){if(!CRT.length||(fight&&rd.st!='fight'))return 0;const R=k=='spear'||lastK=='spear'?4.5:3;let best=null,bt=1e9;for(const c of CRT){const t=rayAABB(eye,L,[c.x+.02,c.y,c.z+.02],[c.x+.98,c.y+.7,c.z+.98]);if(t>=0&&t<=R&&t<bt&&losRay(eye,L,t)>=0){bt=t;best=c}}if(!best)return 0;const dt=rayBox(eye,L,N.p,.1);if(dt>=0&&dt<bt)return 0;
  if((best.dmg||0)>40){cartBreak(best,1);return 1}best.dmg=(best.dmg||0)+(({mace:6,mace2:6,sword:8,axe:10,dsword:7,daxe:9,spear:5})[k]||1)*sc*10;snd('hit',best.p);potP([best.p[0],best.p[1]+.5,best.p[2]],[.6,.6,.65],4,.06,.05);return 1}
 function cartBreak(c,mine){const i=CRT.indexOf(c);if(i>=0)CRT.splice(i,1);S.remove(c.m);potP([c.p[0],c.p[1]+.5,c.p[2]],[.6,.6,.65],14,.1,.08);snd('itembreak',c.p);if(mine){zEv({t:'cb',id:c.id});const j=HB.indexOf(null);if(j>=0)HB[j]='cart';else{const m=MI.indexOf(null);if(m>=0)MI[m]='cart'}imgRev++;lg('TNT minecart broken')}}
+// putting fire out: left-click it (a block or the dummy in front of it is hit first)
+SFX.fizz=(o,t)=>{nz(o,t,.35,.3,3000,900,1.2,'bandpass');nz(o,t+.05,.25,.15,6000,2500,2,'highpass')};
+function bhTarget(eye,L,R){for(let t=0;t<=R;t+=.04){const x=Math.floor(eye[0]+L[0]*t),y=Math.floor(eye[1]+L[1]*t),z=Math.floor(eye[2]+L[2]*t),k=x+','+y+','+z;if(B.has(k))return B.get(k)==99?null:[x,y,z];if(FRS.has(k))return[x,y,z]}return null}
+function fireOut(x,y,z,send){const k=x+','+y+','+z,f=FRS.get(k);if(!f)return 0;S.remove(f.m);FRS.delete(k);potP([x+.5,y+.4,z+.5],[.55,.55,.55],10,.06,.06);snd('fizz',[x+.5,y,z+.5]);if(send)zEv({t:'fx',x,y,z});return 1}
+function fireHit(L,eye){if(!FRS.size||(fight&&rd.st!='fight'))return 0;const dt=rayBox(eye,L,N.p,.1);for(let t=0;t<=4.5;t+=.04){if(dt>=0&&dt<t)return 0;const x=Math.floor(eye[0]+L[0]*t),y=Math.floor(eye[1]+L[1]*t),z=Math.floor(eye[2]+L[2]*t),k=x+','+y+','+z;if(B.has(k))return 0;if(FRS.has(k))return fireOut(x,y,z,1)}return 0}
 var TRR=1;trimApply();
 </script></body></html>
