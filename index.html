@@ -395,10 +395,11 @@ function updXp(){zHold();zUpdG();for(let i=XPB.length-1;i>=0;i--){const q=XPB[i]
 function zslot(e){for(const x of document.elementsFromPoint(e.clientX,e.clientY)){const t=x.closest&&x.closest('[data-s],[data-o],[data-m],[data-p],[data-ar]');if(t&&$('inv').contains(t))return t}return null}
 function zShift(t){
  if(t.dataset.ar!==undefined){const s=t.dataset.ar,w=zWorn(s);if(!w)return;const d=fmi()!==null?fmi():fh();if(d===null)return;zTake(s);cop(d)(A=>lset(A,d,w));resync();return}
- if(t.dataset.p!==undefined){if(fight)return;const d=fh()!==null?fh():fmi();if(d!==null)invMove(null,d,t.dataset.p);return}
+ if(t.dataset.p!==undefined){if(fight)return;if(t.dataset.p=='totem'&&!OH){invMove(null,'o','totem');return}const d=fh()!==null?fh():fmi();if(d!==null)invMove(null,d,t.dataset.p);return}
  const a=refOf(t),it=lget(LV,a);if(!it)return;
  if(it!='chest'&&zS[zb(it)]){const o=zSwap(it);cop(a)(A=>lset(A,a,o));resync();return}
- let d=null;if(isM(a)){d=fh();if(d===null){invSwap(a,sel);return}}else if(a==='o')d=fmi()!==null?fmi():fh();else d=fmi();if(d!==null)invMove(a,d,it)}
+ if(it=='totem'&&a!=='o'&&!OH){invMove(a,'o',it);return}
+ let d=null;if(isM(a)){d=fh();if(d===null)return}else if(a==='o')d=fmi()!==null?fmi():fh();else d=fmi();if(d!==null)invMove(a,d,it)}
 function edOp(f){f(LV);if(fight&&HM.HB){f(HM);saveLO()}}
 const meter=()=>Math.min(1,(ticker+.5)/delay);
 function spawn(){N.dis=0;N.p=[0,0,-2];N.v=[0,0,0];N.pp=N.p.slice()}spawn();
